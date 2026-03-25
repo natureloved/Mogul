@@ -11,6 +11,12 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: "#14F195",
+      },
+      fontFamily: {
+        display: ["var(--font-bebas-neue)"],
+        sans: ["var(--font-space-grotesk)"],
+        mono: ["var(--font-jetbrains-mono)"],
       },
     },
   },
