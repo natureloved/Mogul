@@ -30,9 +30,9 @@ export default function LandingPage() {
           </div>
           <Link 
             href="/dashboard" 
-            className="hidden md:flex items-center gap-2 bg-accent text-black px-6 py-2 rounded-full font-display text-xl hover:scale-105 hover:shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-all"
+            className="hidden md:flex items-center gap-2 bg-accent text-black px-4 py-1.5 rounded-full font-display text-lg hover:scale-105 hover:shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-all"
           >
-            Launch App <ArrowRight size={18} />
+            Launch App <ArrowRight size={16} />
           </Link>
         </div>
       </nav>
@@ -57,7 +57,7 @@ export default function LandingPage() {
         <div className="flex flex-col md:flex-row gap-6 items-center">
           <Link 
             href="/dashboard" 
-            className="w-full md:w-auto bg-accent text-black px-12 py-5 rounded-full font-display text-3xl hover:shadow-[0_0_40px_rgba(20,241,149,0.4)] hover:-translate-y-1 transition-all"
+            className="w-full md:w-auto bg-accent text-black px-8 py-3 rounded-full font-display text-xl hover:shadow-[0_0_40px_rgba(20,241,149,0.4)] hover:-translate-y-1 transition-all"
           >
             Start Analyzing
           </Link>
@@ -65,7 +65,7 @@ export default function LandingPage() {
             href="https://docs.bags.fm" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-full md:w-auto border border-white/10 bg-white/5 backdrop-blur-md px-12 py-5 rounded-full font-display text-3xl hover:bg-white/10 transition-all text-white/80"
+            className="w-full md:w-auto border border-white/10 bg-white/5 backdrop-blur-md px-8 py-3 rounded-full font-display text-xl hover:bg-white/10 transition-all text-white/80"
           >
             Read Documentation
           </a>

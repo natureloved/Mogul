@@ -54,8 +54,15 @@ export default function DashboardPage() {
   }
 
   const handleAnalyze = () => {
-    if (mint.trim()) {
-      setSubmittedMint(mint.trim());
+    const cleanMint = mint.trim();
+    if (!cleanMint) return;
+    
+    if (cleanMint === submittedMint) {
+      // Re-trigger animation if same mint
+      setIsAnalyzing(true);
+      setTimeout(() => setIsAnalyzing(false), 800);
+    } else {
+      setSubmittedMint(cleanMint);
     }
   };
 
@@ -124,9 +131,9 @@ export default function DashboardPage() {
             <button 
               onClick={handleAnalyze}
               disabled={isAnalyzing}
-              className="bg-accent text-black px-12 py-3 rounded-[1.5rem] font-display text-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="bg-accent text-black px-6 py-2 rounded-[1.2rem] font-display text-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              {isAnalyzing ? <Loader2 className="animate-spin" size={20} /> : <Zap size={20} className="fill-black" />}
+              {isAnalyzing ? <Loader2 className="animate-spin" size={16} /> : <Zap size={16} className="fill-black" />}
               {isAnalyzing ? "Analyzing..." : "Analyze"}
             </button>
           </div>
