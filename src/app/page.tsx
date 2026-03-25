@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BarChart3, Bot, Layout, Megaphone, Users, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LandingPage() {
   return (
@@ -45,10 +46,25 @@ export default function LandingPage() {
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">System Online: Analyzing Onchain Data</span>
         </div>
 
-        <h2 className="text-7xl md:text-[8rem] font-display leading-[0.85] tracking-tighter mb-10 text-balance uppercase">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: 1, 
+            y: [0, -15, 0],
+          }}
+          transition={{
+            y: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            },
+            opacity: { duration: 1 }
+          }}
+          className="text-7xl md:text-[8rem] font-display leading-[0.85] tracking-tighter mb-10 text-balance uppercase"
+        >
           THE <span className="text-accent italic text-glow">AI COACH</span> <br/>
           YOUR BAGS DESERVE
-        </h2>
+        </motion.h2>
 
         <p className="text-lg md:text-2xl font-sans text-white/50 mb-14 max-w-3xl leading-relaxed font-light">
           Mogul aggregates live intelligence from <span className="text-white italic">Bags.fm</span> to provide real-time advice, social content generation, and onchain growth tracking for your token.

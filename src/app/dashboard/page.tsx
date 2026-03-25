@@ -120,22 +120,25 @@ export default function DashboardPage() {
         {/* Mint Input Section */}
         <section className="max-w-3xl mx-auto mb-16 text-center">
           <h2 className="text-4xl font-display mb-8">Analyze Your Token</h2>
-          <div className="flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-white/5 rounded-[2rem] focus-within:border-accent/40 transition-colors mb-6 shadow-2xl">
-            <input 
-              type="text" 
-              placeholder="Paste Bags token mint address..."
-              value={mint}
-              onChange={(e) => setMint(e.target.value)}
-              className="flex-1 bg-transparent px-6 py-3 font-sans text-lg outline-none"
-            />
-            <button 
-              onClick={handleAnalyze}
-              disabled={isAnalyzing}
-              className="bg-accent text-black px-6 py-2 rounded-[1.2rem] font-display text-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isAnalyzing ? <Loader2 className="animate-spin" size={16} /> : <Zap size={16} className="fill-black" />}
-              {isAnalyzing ? "Analyzing..." : "Analyze"}
-            </button>
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-purple-500/20 rounded-[2.1rem] blur opacity-30 group-focus-within:opacity-100 transition duration-1000"></div>
+            <div className="relative flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-black rounded-[2rem] focus-within:border-accent/40 transition-colors mb-6 shadow-2xl">
+              <input 
+                type="text" 
+                placeholder="Paste Bags token mint address..."
+                value={mint}
+                onChange={(e) => setMint(e.target.value)}
+                className="flex-1 bg-transparent px-6 py-3 font-sans text-lg outline-none"
+              />
+              <button 
+                onClick={handleAnalyze}
+                disabled={isAnalyzing}
+                className="bg-accent text-black px-6 py-2 rounded-[1.2rem] font-display text-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {isAnalyzing ? <Loader2 className="animate-spin" size={16} /> : <Zap size={16} className="fill-black" />}
+                {isAnalyzing ? "Processing..." : "Analyze"}
+              </button>
+            </div>
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -161,7 +164,20 @@ export default function DashboardPage() {
         </section>
 
         <AnimatePresence mode="wait">
-          {submittedMint ? (
+          {isAnalyzing && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center flex-col gap-6"
+            >
+              <div className="w-20 h-20 border-4 border-accent/20 border-t-accent rounded-full animate-spin"></div>
+              <div className="font-display text-4xl tracking-widest animate-pulse">ANALYZING ONCHAIN DATA</div>
+              <p className="font-mono text-xs text-white/40">Aggregating Bags.fm intelligence...</p>
+            </motion.div>
+          )}
+
+          {submittedMint && !isAnalyzing ? (
             <motion.div 
               key={submittedMint}
               initial={{ opacity: 0, scale: 0.98 }}
