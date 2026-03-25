@@ -9,7 +9,10 @@ import TokenStats from "@/components/TokenStats";
 import AICoach from "@/components/AICoach";
 import ContentGenerator from "@/components/ContentGenerator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { ArrowRight, BarChart3, Bot, Layout, Megaphone, Zap, Loader2 } from "lucide-react";
+import SentimentPulse from "@/components/SentimentPulse";
+import BondingCurveHUD from "@/components/BondingCurveHUD";
+import WhaleTracker from "@/components/WhaleTracker";
+import { ArrowRight, BarChart3, Bot, Layout, Megaphone, Zap, Loader2, Anchor, Target } from "lucide-react";
 
 export default function DashboardPage() {
   const { authenticated, login, logout, user } = usePrivy();
@@ -186,8 +189,8 @@ export default function DashboardPage() {
               className="space-y-12"
             >
               {/* Tabs */}
-              <div className="flex gap-3 justify-center">
-                {["Stats", "AI Coach", "Content Gen"].map((tab) => (
+              <div className="flex flex-wrap gap-3 justify-center">
+                {["Stats", "AI Coach", "Content Gen", "Raid Mode"].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -206,9 +209,22 @@ export default function DashboardPage() {
               <div className="relative">
                 <ErrorBoundary>
                   {activeTab === "Stats" && (
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col md:flex-row gap-8">
-                      <GrowthScore tokenMint={submittedMint} />
-                      <TokenStats tokenMint={submittedMint} />
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                          <div className="lg:col-span-2 space-y-8">
+                             <div className="flex flex-col md:flex-row gap-8">
+                                <GrowthScore tokenMint={submittedMint} />
+                                <div className="flex-1 space-y-6">
+                                   <SentimentPulse score={82} />
+                                   <BondingCurveHUD progress={64} />
+                                </div>
+                             </div>
+                             <TokenStats tokenMint={submittedMint} />
+                          </div>
+                          <div className="lg:col-span-1">
+                             <WhaleTracker tokenMint={submittedMint} />
+                          </div>
+                       </div>
                     </motion.div>
                   )}
                   {activeTab === "AI Coach" && (
@@ -219,6 +235,25 @@ export default function DashboardPage() {
                   {activeTab === "Content Gen" && (
                     <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
                       <ContentGenerator tokenMint={submittedMint} />
+                    </motion.div>
+                  )}
+                  {activeTab === "Raid Mode" && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                      <div className="p-12 glass-panel rounded-[3rem] text-center max-w-2xl mx-auto border-accent/20">
+                         <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-accent mx-auto mb-8 animate-pulse">
+                            <Target size={40} />
+                         </div>
+                         <h3 className="text-5xl font-display mb-6 tracking-tighter">Enter Raid Mode</h3>
+                         <p className="font-sans text-white/50 text-xl mb-10 leading-relaxed">
+                            Generate high-intensity raid instructions and pre-written posts for your community to blast on X.
+                         </p>
+                         <button 
+                           onClick={() => setActiveTab("Content Gen")}
+                           className="bg-accent text-black px-12 py-4 rounded-full font-display text-2xl hover:shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-all"
+                         >
+                            Initialize Mission
+                         </button>
+                      </div>
                     </motion.div>
                   )}
                 </ErrorBoundary>

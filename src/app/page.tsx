@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, BarChart3, Bot, Layout, Megaphone, Users, Zap } from "lucide-react";
 import { motion } from "framer-motion";

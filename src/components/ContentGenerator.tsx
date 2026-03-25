@@ -9,6 +9,7 @@ const STYLES = [
   { id: "holders", label: "💎 Holders", color: "text-blue-400" },
   { id: "cta", label: "⚡ CTA", color: "text-accent" },
   { id: "update", label: "📊 Update", color: "text-purple-400" },
+  { id: "raid", label: "💥 Raid", color: "text-red-500" },
 ];
 
 export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
@@ -33,9 +34,15 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
       } else {
         // Mock data for demonstration
         setTimeout(() => {
-          setGeneratedPost(
-            `🚀 Mogul ALERT: Our Bags token is seeing insane volume! Just hit a new growth score of 85. 📈\n\nLFG Moguls! 💎🙌\n\n#Solana #BagsApp #Mogul`
-          );
+          if (style === "raid") {
+            setGeneratedPost(
+              `💥 RAID MISSION: $MOGUL is ascending! 🚀\n\n1️⃣ Like & RT our last post\n2️⃣ Reply with "LFG MOGULS"\n3️⃣ Tag 3 bags holders\n\nMISSION START NOW! 💎🙌\n\n#Solana #Bags #MogulRaid`
+            );
+          } else {
+            setGeneratedPost(
+              `🚀 Mogul ALERT: Our Bags token is seeing insane volume! Just hit a new growth score of 85. 📈\n\nLFG Moguls! 💎🙌\n\n#Solana #BagsApp #Mogul`
+            );
+          }
         }, 1200);
       }
     } catch (err) {
