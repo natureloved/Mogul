@@ -43,10 +43,16 @@ export default function DashboardPage() {
     }
   };
 
-  const walletAddress = user?.wallet?.address;
-  const truncatedAddress = walletAddress 
-    ? `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}` 
-    : "Not Connected";
+  const identifier = user?.wallet?.address 
+    ? `${user.wallet.address.slice(0, 4)}...${user.wallet.address.slice(-4)}`
+    : user?.email?.address 
+      ? user.email.address 
+      : "ID: " + user?.id?.slice(0, 8);
+
+  const sampleMints = [
+    { name: "Sample 1", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" }, // USDC for testing
+    { name: "Sample 2", address: "JUPyiHrh2jqEJEVgdCZiZbsEKfujBv245P1pHOxrY78" }, // JUP for testing
+  ];
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-accent selection:text-black">
@@ -59,7 +65,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-6">
             <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-              <span className="font-mono text-xs">{truncatedAddress}</span>
+              <span className="font-mono text-xs">{identifier}</span>
             </div>
             <button 
               onClick={logout}
@@ -75,7 +81,7 @@ export default function DashboardPage() {
         {/* Mint Input Section */}
         <section className="max-w-3xl mx-auto mb-16 text-center">
           <h2 className="text-4xl font-display mb-6">Analyze Your Token</h2>
-          <div className="flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-white/5 rounded-[2rem] focus-within:border-accent/40 transition-colors">
+          <div className="flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-white/5 rounded-[2rem] focus-within:border-accent/40 transition-colors mb-4">
             <input 
               type="text" 
               placeholder="Paste Bags token mint address..."
@@ -89,6 +95,28 @@ export default function DashboardPage() {
             >
               Analyze
             </button>
+          </div>
+          
+          {/* Sample Mints */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+             <span className="font-mono text-[10px] uppercase tracking-widest text-white/20">Try these:</span>
+             {sampleMints.map((s) => (
+                <button
+                  key={s.address}
+                  onClick={() => { setMint(s.address); setSubmittedMint(s.address); }}
+                  className="px-3 py-1 bg-white/5 border border-white/5 rounded-full text-[10px] font-mono text-white/40 hover:text-accent hover:border-accent/20 transition-all"
+                >
+                  {s.name}
+                </button>
+             ))}
+             <a 
+               href="https://bags.fm" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="text-[10px] font-mono uppercase tracking-widest text-accent/60 hover:text-accent underline underline-offset-4"
+             >
+               Find Mints on Bags.fm →
+             </a>
           </div>
         </section>
 
