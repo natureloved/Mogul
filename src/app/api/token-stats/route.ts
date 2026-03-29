@@ -13,7 +13,11 @@ export async function GET(request: Request) {
   try {
     const data = await getTokenIntelligence(mint);
     return NextResponse.json({ success: true, data });
-  } catch {
-    return NextResponse.json({ success: false, error: "Failed to fetch token data" }, { status: 500 });
+  } catch (error) {
+    console.error("TOKEN INTELLIGENCE FETCH ERROR:", error);
+    return NextResponse.json({ 
+      success: false, 
+      error: error instanceof Error ? error.message : "Failed to fetch token data" 
+    }, { status: 500 });
   }
 }
