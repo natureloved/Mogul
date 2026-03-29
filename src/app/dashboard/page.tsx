@@ -169,6 +169,7 @@ export default function DashboardPage() {
         <AnimatePresence mode="wait">
           {isAnalyzing && (
             <motion.div 
+              key="loader"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -180,7 +181,20 @@ export default function DashboardPage() {
             </motion.div>
           )}
 
-          {submittedMint && !isAnalyzing ? (
+          {!submittedMint && !isAnalyzing && (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="py-20 text-center text-white/20 grayscale opacity-20"
+            >
+              <div className="text-8xl font-display mb-4">Mogul</div>
+              <p className="font-sans italic text-xl">Enter a mint address above to generate your growth dashboard</p>
+            </motion.div>
+          )}
+
+          {submittedMint && !isAnalyzing && (
             <motion.div 
               key={submittedMint}
               initial={{ opacity: 0, scale: 0.98 }}
@@ -259,11 +273,6 @@ export default function DashboardPage() {
                 </ErrorBoundary>
               </div>
             </motion.div>
-          ) : (
-            <div className="py-20 text-center text-white/20 grayscale opacity-20">
-              <div className="text-8xl font-display mb-4">Mogul</div>
-              <p className="font-sans italic text-xl">Enter a mint address above to generate your growth dashboard</p>
-            </div>
           )}
         </AnimatePresence>
       </motion.main>
