@@ -21,13 +21,6 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("Stats");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  useEffect(() => {
-    if (submittedMint) {
-      setIsAnalyzing(true);
-      const timer = setTimeout(() => setIsAnalyzing(false), 800);
-      return () => clearTimeout(timer);
-    }
-  }, [submittedMint]);
 
   if (!authenticated) {
     return (
@@ -56,16 +49,27 @@ export default function DashboardPage() {
     );
   }
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     const cleanMint = mint.trim();
     if (!cleanMint) return;
-    
-    if (cleanMint === submittedMint) {
-      // Re-trigger animation if same mint
-      setIsAnalyzing(true);
-      setTimeout(() => setIsAnalyzing(false), 800);
-    } else {
+
+    setIsAnalyzing(true);
+
+    try {
+      const res = await fetch(`/api/token-stats?mint=${cleanMint}`);
+      const data = await res.json();
+
+      if (data.error) {
+        alert(`Error: ${data.error}`);
+        setIsAnalyzing(false);
+        return;
+      }
+
       setSubmittedMint(cleanMint);
+    } catch (err) {
+      alert("Failed to connect to Bags API. Check your terminal for errors.");
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
