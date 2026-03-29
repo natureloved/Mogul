@@ -49,6 +49,18 @@ export default function DashboardPage() {
     );
   }
 
+
+  const identifier = user?.wallet?.address 
+    ? `${user.wallet.address.slice(0, 4)}...${user.wallet.address.slice(-4)}`
+    : user?.email?.address 
+      ? user.email.address 
+      : "ID: " + user?.id?.slice(0, 8);
+
+  const sampleMints = [
+    { name: "Sample 1", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" },
+    { name: "Sample 2", address: "JUPyiHrh2jqEJEVgdCZiZbsEKfujBv245P1pHOxrY78" },
+  ];
+
   const handleAnalyze = async () => {
     const cleanMint = mint.trim();
     if (!cleanMint) return;
@@ -67,22 +79,11 @@ export default function DashboardPage() {
 
       setSubmittedMint(cleanMint);
     } catch (err) {
-      alert("Failed to connect to Bags API. Check your terminal for errors.");
+      alert("Failed to connect to Bags API. Check your terminal.");
     } finally {
       setIsAnalyzing(false);
     }
   };
-
-  const identifier = user?.wallet?.address 
-    ? `${user.wallet.address.slice(0, 4)}...${user.wallet.address.slice(-4)}`
-    : user?.email?.address 
-      ? user.email.address 
-      : "ID: " + user?.id?.slice(0, 8);
-
-  const sampleMints = [
-    { name: "Sample 1", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" },
-    { name: "Sample 2", address: "JUPyiHrh2jqEJEVgdCZiZbsEKfujBv245P1pHOxrY78" },
-  ];
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-accent selection:text-black">

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getTokenIntelligence } from "@/lib/bags";
 
 export async function GET(request: Request) {
+  console.log("BAGS KEY:", process.env.BAGS_API_KEY ? "✅ Loaded" : "❌ Missing");
   const { searchParams } = new URL(request.url);
   const mint = searchParams.get("mint");
 

@@ -23,25 +23,22 @@ const getHeaders = () => {
 };
 
 export async function getTokenLifetimeFees(tokenMint: string) {
-  const url = new URL(`${BASE_URL}/token-launch/lifetime-fees`);
-  url.searchParams.set("tokenMint", tokenMint);
-  const response = await fetch(url.toString(), { headers: getHeaders() });
+  const url = `${BASE_URL}/token-launch/lifetime-fees?tokenMint=${tokenMint}`;
+  const response = await fetch(url, { headers: getHeaders() });
   if (!response.ok) return { totalFees: 0 };
   return response.json();
 }
 
 export async function getTokenCreators(tokenMint: string) {
-  const url = new URL(`${BASE_URL}/token-launch/creators`);
-  url.searchParams.set("tokenMint", tokenMint);
-  const response = await fetch(url.toString(), { headers: getHeaders() });
+  const url = `${BASE_URL}/token-launch/creators?tokenMint=${tokenMint}`;
+  const response = await fetch(url, { headers: getHeaders() });
   if (!response.ok) return { creators: [] };
   return response.json();
 }
 
 export async function getTokenClaimEvents(tokenMint: string) {
-  const url = new URL(`${BASE_URL}/token-launch/claim-events`);
-  url.searchParams.set("tokenMint", tokenMint);
-  const response = await fetch(url.toString(), { headers: getHeaders() });
+  const url = `${BASE_URL}/token-launch/claim-events?tokenMint=${tokenMint}`;
+  const response = await fetch(url, { headers: getHeaders() });
   if (!response.ok) return { events: [] };
   return response.json();
 }
