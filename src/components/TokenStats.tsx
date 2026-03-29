@@ -22,9 +22,18 @@ export default function TokenStats({ tokenMint }: { tokenMint: string }) {
       setError(false);
       try {
         const res = await fetch(`/api/token-stats?mint=${tokenMint}`);
-        if (res.ok) {
-          const data = await res.json();
-          setStats(data);
+        const result = await res.json();
+        
+        if (res.ok && result.success && result.data) {
+          const statsData = result.data;
+          setStats({
+            lifetimeFees: statsData.totalFees || 0,
+            claimableNow: statsData.claimableNow || 0,
+            feeVelocity7d: statsData.feeVelocity || 0,
+            totalClaimEvents: statsData.claimEvents?.length || 0,
+            creatorName: statsData.creators?.[0]?.name || "Creator",
+            royaltyPercentage: statsData.creators?.[0]?.royalty || 5,
+          });
         } else {
           // Mock data for demonstration if API isn't live
           setStats({

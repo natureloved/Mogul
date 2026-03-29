@@ -16,9 +16,13 @@ export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
       setLoading(true);
       try {
         const res = await fetch(`/api/token-stats?mint=${tokenMint}`);
-        if (res.ok) {
-          const data = await res.json();
-          setStats(data);
+        const result = await res.json();
+        
+        if (res.ok && result.success && result.data) {
+          setStats({ 
+            growthScore: result.data.growthScore || 0, 
+            lastActiveDays: result.data.lastActivityDays || 0 
+          });
         } else {
           // Fallback for testing if api not yet implemented
           setStats({ growthScore: 65, lastActiveDays: 2 });

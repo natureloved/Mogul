@@ -128,6 +128,8 @@ export default function DashboardPage() {
             <div className="relative flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-black rounded-[2rem] focus-within:border-accent/40 transition-colors mb-6 shadow-2xl">
               <input 
                 type="text" 
+                id="mint-address"
+                name="mint-address"
                 placeholder="Paste Bags token mint address..."
                 value={mint}
                 onChange={(e) => setMint(e.target.value)}
