@@ -88,8 +88,8 @@ export default function DashboardPage() {
       const res = await fetch(`/api/token-stats?mint=${cleanMint}`);
       const data = await res.json();
 
-      if (!res.ok || data.error) {
-        setErrorMsg(data.error || "Failed to fetch token data.");
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || "Token not found or API error.");
         setIsAnalyzing(false);
         return;
       }
@@ -175,24 +175,21 @@ export default function DashboardPage() {
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <span className="text-[10px] uppercase tracking-widest text-white/20">Try:</span>
-            {[
-              { name: "Sample 1", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" },
-              { name: "Sample 2", address: "JUPyiHrh2jqEJEVgdCZiZbsEKfujBv245P1pHOxrY78" },
-            ].map((s) => (
-              <button
-                key={s.address}
-                onClick={() => {
-                  setMint(s.address);
-                  sessionStorage.setItem("mogul_mint", s.address);
-                  setSubmittedMint(s.address);
-                }}
-                className="px-4 py-1.5 bg-white/5 border border-white/5 rounded-full text-[10px] font-mono text-white/40 hover:text-[#14F195] hover:border-[#14F195]/20 transition-all"
+          <div className="flex flex-col items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery:</span>
+              <a 
+                href="https://bags.fm/explore" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-[#14F195] hover:bg-[#14F195]/10 transition-all flex items-center gap-2"
               >
-                {s.name}
-              </button>
-            ))}
+                Find Real Tokens on Bags.fm <ArrowRight size={14} />
+              </a>
+            </div>
+            <p className="text-[10px] text-white/20 font-mono italic max-w-sm">
+              Note: Mogul provides simulated intelligence for non-Bags tokens (like USDC) to support your demos.
+            </p>
           </div>
         </section>
 
