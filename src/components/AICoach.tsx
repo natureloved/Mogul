@@ -52,7 +52,7 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
 
       if (res.ok) {
         const data = await res.json();
-        setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+        setMessages([...newMessages, { role: "assistant", content: data.advice }]);
       } else {
         // Mock reply if API not yet implemented
         setTimeout(() => {

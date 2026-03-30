@@ -31,7 +31,7 @@ User Message: ${userMessage}`;
   ];
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-3-5-sonnet-20240620",
     max_tokens: 600,
     system: systemPrompt,
     messages: messages
@@ -55,7 +55,7 @@ ${customContext ? `Custom Context: ${customContext}` : ""}
 Requirement: Keep it under 280 characters. End with #Solana #BagsApp`;
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-3-5-sonnet-20240620",
     max_tokens: 600,
     messages: [{ role: "user", content: prompt }]
   });
@@ -75,7 +75,7 @@ Last Activity: ${tokenData.lastActivityDays} days ago
 Growth Score: ${tokenData.growthScore}/100`;
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-3-5-sonnet-20240620",
     max_tokens: 100,
     messages: [{ role: "user", content: prompt }]
   });
