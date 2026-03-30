@@ -12,6 +12,11 @@ export async function GET(request: Request) {
 
   try {
     const data = await getTokenIntelligence(mint);
+    if (data.isSimulated) {
+      console.warn("⚠️ Providing Simulated Data for:", mint);
+    } else {
+      console.log("💎 Fetched Direct Data for:", mint);
+    }
     return NextResponse.json({ success: true, data });
   } catch (error) {
     console.error("TOKEN INTELLIGENCE FETCH ERROR:", error);

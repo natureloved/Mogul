@@ -153,6 +153,8 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
       <div className="p-6 border-t border-white/5 bg-white/[0.02]">
         <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full px-6 py-2 focus-within:border-accent/40 transition-colors">
           <input
+            id="coach-message"
+            name="coach-message"
             type="text"
             placeholder="Ask your coach anything..."
             value={input}

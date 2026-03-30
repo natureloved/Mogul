@@ -95,6 +95,8 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
             Extra Context (Optional)
           </label>
           <input
+            id="content-context"
+            name="content-context"
             type="text"
             placeholder="e.g. 'Just hit 500 holders' or 'New partnership announced'"
             value={context}

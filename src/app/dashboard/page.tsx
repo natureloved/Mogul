@@ -145,6 +145,8 @@ export default function DashboardPage() {
           <h2 className="text-4xl font-bold mb-8">Analyze Your Token</h2>
           <div className="flex flex-col sm:flex-row gap-2 p-1.5 border border-white/10 bg-black rounded-2xl focus-within:border-[#14F195]/40 transition-colors mb-4 mx-auto max-w-[90vw] sm:max-w-none">
             <input
+              id="mint-address"
+              name="mint-address"
               type="text"
               placeholder="Paste Bags token mint address..."
               value={mint}
