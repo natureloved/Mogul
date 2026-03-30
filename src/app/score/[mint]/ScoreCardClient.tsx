@@ -106,49 +106,49 @@ export default function ScoreCardClient({ mint, tokenData, error }: Props) {
         </div>
 
         {/* Score Hero */}
-        <div className="flex flex-col items-center py-12 px-8">
+        <div className="flex flex-col items-center py-10 md:py-12 px-6 md:px-8">
           {/* Score circle */}
           <div className="relative mb-6">
             <div
-              className="w-44 h-44 rounded-full border-4 flex items-center justify-center"
+              className="w-32 h-32 md:w-44 md:h-44 rounded-full border-4 flex items-center justify-center transition-all duration-500"
               style={{
                 borderColor: scoreColor,
-                boxShadow: `0 0 60px ${scoreGlow}, 0 0 120px ${scoreGlow}`,
+                boxShadow: `0 0 40px ${scoreGlow}, 0 0 80px ${scoreGlow}`,
               }}
             >
               <div className="text-center">
                 <div
-                  className="font-display leading-none"
-                  style={{ fontSize: "4.5rem", color: scoreColor }}
+                  className="font-display leading-none text-5xl md:text-7xl"
+                  style={{ color: scoreColor }}
                 >
                   <AnimatedScore target={growthScore} />
                 </div>
-                <div className="font-mono text-[10px] text-white/30 uppercase tracking-widest mt-1">/100</div>
+                <div className="font-mono text-[8px] md:text-[10px] text-white/30 uppercase tracking-widest mt-0.5 md:mt-1">/100</div>
               </div>
             </div>
           </div>
 
           {/* Status badge */}
           <div
-            className="px-5 py-2 rounded-full font-mono text-xs uppercase tracking-widest mb-10 border"
+            className="px-4 py-1.5 md:px-5 md:py-2 rounded-full font-mono text-[10px] md:text-xs uppercase tracking-widest mb-8 md:mb-10 border"
             style={{ color: scoreColor, borderColor: `${scoreColor}44`, backgroundColor: `${scoreColor}11` }}
           >
             {statusLabel}
           </div>
 
           {/* Stats row */}
-          <div className="w-full grid grid-cols-3 gap-4 mb-10">
+          <div className="w-full grid grid-cols-1 xs:grid-cols-3 gap-3 md:gap-4 mb-8 md:mb-10">
             {[
               { label: "Lifetime Fees", value: totalFees > 0 ? totalFees.toFixed(4) : "0.0000", unit: "SOL" },
               { label: "7-Day Velocity", value: feeVelocity > 0 ? feeVelocity.toFixed(4) : "0.0000", unit: "SOL" },
               { label: "Claim Events", value: claimEvents.length.toString(), unit: "total" },
             ].map((stat) => (
-              <div key={stat.label} className="text-center p-4 bg-white/[0.03] border border-white/5 rounded-2xl">
-                <div className="font-mono text-lg text-white" style={{ fontFamily: "var(--font-jetbrains-mono, monospace)" }}>
+              <div key={stat.label} className="text-center p-3 md:p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex flex-col justify-center">
+                <div className="font-mono text-sm md:text-lg text-white" style={{ fontFamily: "var(--font-jetbrains-mono, monospace)" }}>
                   {stat.value}
                 </div>
-                <div className="font-mono text-[9px] text-white/30 uppercase tracking-widest mt-1">{stat.unit}</div>
-                <div className="font-mono text-[9px] text-white/20 mt-0.5">{stat.label}</div>
+                <div className="font-mono text-[8px] md:text-[9px] text-white/30 uppercase tracking-widest mt-0.5 md:mt-1">{stat.unit}</div>
+                <div className="font-mono text-[8px] md:text-[9px] text-white/20 mt-0.25 md:mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>

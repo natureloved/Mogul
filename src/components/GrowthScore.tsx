@@ -55,12 +55,21 @@ export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="w-full md:w-[320px] p-8 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] flex flex-col items-center">
-      <h3 className="font-display text-2xl mb-8 tracking-wider text-white/60 uppercase">Growth Score</h3>
+    <div className="w-full md:w-[320px] p-6 md:p-8 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] flex flex-col items-center">
+      <h3 className="font-display text-xl md:text-2xl mb-6 md:mb-8 tracking-wider text-white/60 uppercase">Growth Score</h3>
       
       {/* Circle Ring */}
-      <div className="relative flex items-center justify-center mb-8">
-        <svg className="w-40 h-40 transform -rotate-90">
+      <div className="relative flex items-center justify-center mb-6 md:mb-8">
+        <svg className="w-32 h-32 md:w-40 md:h-40 transform -rotate-90">
+          <circle
+            cx="64"
+            cy="64"
+            r={radius - 8}
+            stroke="currentColor"
+            strokeWidth="8"
+            fill="transparent"
+            className="text-white/5 md:hidden"
+          />
           <circle
             cx="80"
             cy="80"
@@ -68,7 +77,19 @@ export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
             stroke="currentColor"
             strokeWidth="8"
             fill="transparent"
-            className="text-white/5"
+            className="text-white/5 hidden md:block"
+          />
+          <circle
+            cx="64"
+            cy="64"
+            r={radius - 8}
+            stroke={color}
+            strokeWidth="8"
+            fill="transparent"
+            strokeDasharray={2 * Math.PI * (radius - 8)}
+            strokeDashoffset={(2 * Math.PI * (radius - 8)) - (score / 100) * (2 * Math.PI * (radius - 8))}
+            strokeLinecap="round"
+            className="transition-all duration-1000 ease-out md:hidden"
           />
           <circle
             cx="80"
@@ -80,12 +101,12 @@ export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
+            className="transition-all duration-1000 ease-out hidden md:block"
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-mono text-5xl font-bold tracking-tighter" style={{ color }}>{score}</span>
-          <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.2em] mt-1">out of 100</span>
+          <span className="font-mono text-4xl md:text-5xl font-bold tracking-tighter" style={{ color }}>{score}</span>
+          <span className="font-mono text-[8px] md:text-[10px] text-white/20 uppercase tracking-[0.2em] mt-0.5 md:mt-1">out of 100</span>
         </div>
       </div>
 

@@ -70,16 +70,16 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
   };
 
   return (
-    <div className="flex flex-col h-[600px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[3rem] overflow-hidden">
+    <div className="flex flex-col h-[500px] md:h-[600px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3rem] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-4 border-b border-white/5 bg-white/[0.02]">
+      <div className="flex items-center justify-between px-6 py-4 md:px-8 md:py-4 border-b border-white/5 bg-white/[0.02]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
-            <Sparkles size={20} />
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
+            <Sparkles size={18} />
           </div>
           <div>
-            <h3 className="font-display text-2xl tracking-wide">AI Growth Coach</h3>
-            <p className="text-[10px] font-mono text-white/30 uppercase tracking-widest">Powered by Claude</p>
+            <h3 className="font-display text-xl md:text-2xl tracking-wide">AI Growth Coach</h3>
+            <p className="text-[9px] md:text-[10px] font-mono text-white/30 uppercase tracking-widest">Powered by Claude</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

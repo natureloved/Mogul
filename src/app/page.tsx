@@ -41,7 +41,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <header className="relative z-10 flex flex-col items-center text-center px-6 pt-24 pb-32 md:pt-40 md:pb-48 max-w-6xl mx-auto">
+      <header className="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-40 md:pt-40 md:pb-48 max-w-6xl mx-auto">
         {/* Status Pill */}
         <div className="animate-float mb-8 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
@@ -56,7 +56,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="text-5xl md:text-6xl font-display leading-[0.9] tracking-tighter mb-10 text-balance uppercase"
+            className="text-6xl md:text-8xl font-display leading-[0.9] tracking-tighter mb-10 text-balance uppercase"
           >
             THE <span className="text-accent italic text-glow">AI COACH</span> <br/>
             YOUR BAGS DESERVE

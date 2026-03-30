@@ -62,13 +62,14 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
   const charColor = charCount >= 260 ? "text-red-500" : charCount >= 220 ? "text-yellow-500" : "text-white/40";
 
   return (
-    <div className="p-10 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[3rem]">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+    <div className="p-6 md:p-10 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3rem]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-10">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center text-accent">
-            <Wand2 size={24} />
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-accent/20 flex items-center justify-center text-accent">
+            <Wand2 size={20} className="md:hidden" />
+            <Wand2 size={24} className="hidden md:block" />
           </div>
-          <h3 className="text-4xl font-display">Content Gen</h3>
+          <h3 className="text-3xl md:text-4xl font-display">Content Gen</h3>
         </div>
         
         <div className="flex flex-wrap gap-2">

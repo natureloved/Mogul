@@ -114,20 +114,20 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-6 py-4 md:px-12 sticky top-0 z-50">
+      <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-4 py-4 md:px-12 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold hover:text-[#14F195] transition-colors flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-[#14F195] text-black flex items-center justify-center text-xs font-bold">M</div>
+          <Link href="/" className="text-xl md:text-2xl font-bold hover:text-[#14F195] transition-colors flex items-center gap-2">
+            <div className="w-5 h-5 md:w-6 md:h-6 rounded bg-[#14F195] text-black flex items-center justify-center text-[10px] md:text-xs font-bold">M</div>
             Mogul
           </Link>
-          <div className="flex items-center gap-6">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
+          <div className="flex items-center gap-3 md:gap-6">
+            <div className="hidden min-[450px]:flex items-center gap-2 px-2 py-1 md:px-3 md:py-1.5 bg-white/5 border border-white/10 rounded-full">
               <div className="w-1.5 h-1.5 rounded-full bg-[#14F195] animate-pulse" />
-              <span className="font-mono text-[10px]">{identifier}</span>
+              <span className="font-mono text-[9px] md:text-[10px]">{identifier}</span>
             </div>
             <button
               onClick={logout}
-              className="text-white/40 hover:text-red-400 text-xs uppercase tracking-widest transition-colors"
+              className="text-white/40 hover:text-red-400 text-[10px] uppercase tracking-widest transition-colors"
             >
               Disconnect
             </button>
@@ -139,19 +139,19 @@ export default function DashboardPage() {
         {/* Mint Input */}
         <section className="max-w-3xl mx-auto mb-16 text-center">
           <h2 className="text-4xl font-bold mb-8">Analyze Your Token</h2>
-          <div className="flex flex-col sm:flex-row gap-3 p-2 border border-white/10 bg-black rounded-2xl focus-within:border-[#14F195]/40 transition-colors mb-4">
+          <div className="flex flex-col sm:flex-row gap-2 p-1.5 border border-white/10 bg-black rounded-2xl focus-within:border-[#14F195]/40 transition-colors mb-4 mx-auto max-w-[90vw] sm:max-w-none">
             <input
               type="text"
               placeholder="Paste Bags token mint address..."
               value={mint}
               onChange={(e) => setMint(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
-              className="flex-1 bg-transparent px-6 py-3 text-lg outline-none placeholder-white/20"
+              className="flex-1 bg-transparent px-4 py-2 text-sm sm:text-lg outline-none placeholder-white/20 min-w-0"
             />
             <button
               onClick={handleAnalyze}
               disabled={isAnalyzing || !mint.trim()}
-              className="bg-[#14F195] text-black px-8 py-3 rounded-xl font-bold text-lg hover:bg-[#10c977] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#14F195] text-black px-6 py-2 sm:px-8 sm:py-3 rounded-xl font-bold text-sm sm:text-lg hover:bg-[#10c977] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
               {isAnalyzing
                 ? <><Loader2 className="animate-spin" size={16} /> Analyzing...</>
@@ -222,12 +222,12 @@ export default function DashboardPage() {
           >
             {/* Tabs + Share button */}
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-row overflow-x-auto sm:flex-wrap gap-2 sm:gap-3 pb-2 sm:pb-0 no-scrollbar">
                 {["Stats", "AI Coach", "Content Gen", "Raid Mode"].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-5 py-2 rounded-full font-bold text-sm transition-all border ${
+                    className={`px-4 py-1.5 sm:px-5 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all border whitespace-nowrap ${
                       activeTab === tab
                         ? "bg-[#14F195] text-black border-[#14F195]"
                         : "bg-white/5 text-white/40 border-transparent hover:bg-white/10"
