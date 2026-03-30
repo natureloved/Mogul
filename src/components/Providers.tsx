@@ -16,11 +16,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
           ethereum: { createOnLogin: "off" },
           solana: { createOnLogin: "off" },
         },
-        externalWallets: {
-          solana: {
-            connectors: [],
-          },
-        },
       }}
     >
       {children}

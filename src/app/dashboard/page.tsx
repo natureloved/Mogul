@@ -1,7 +1,7 @@
 "use client";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import GrowthScore from "@/components/GrowthScore";
@@ -17,6 +17,7 @@ import { ArrowRight, Zap, Loader2, Target } from "lucide-react";
 export default function DashboardPage() {
   const { ready, authenticated, login, logout, user } = usePrivy();
   const [mint, setMint] = useState("");
+  const submittedMintRef = useRef("");
   const [submittedMint, setSubmittedMint] = useState("");
   const [activeTab, setActiveTab] = useState("Stats");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -78,32 +79,25 @@ export default function DashboardPage() {
     const cleanMint = mint.trim();
     if (!cleanMint) return;
 
-    console.log("1. Starting analyze for:", cleanMint);
     setErrorMsg("");
     setIsAnalyzing(true);
 
     try {
-      console.log("2. Fetching API...");
       const res = await fetch(`/api/token-stats?mint=${cleanMint}`);
-      console.log("3. Response status:", res.status);
       const data = await res.json();
-      console.log("4. Data received:", data);
 
       if (!res.ok || data.error) {
-        console.log("5. Error in data:", data.error);
         setErrorMsg(data.error || "Failed to fetch token data.");
         setIsAnalyzing(false);
         return;
       }
 
-      console.log("6. Setting submittedMint:", cleanMint);
+      submittedMintRef.current = cleanMint;
       setSubmittedMint(cleanMint);
       setIsAnalyzing(false);
-      console.log("7. Done!");
 
-    } catch (err) {
-      console.log("8. Caught error:", err);
-      setErrorMsg("Network error. Check your connection and try again.");
+    } catch (_err) {
+      setErrorMsg("Network error. Try again.");
       setIsAnalyzing(false);
     }
   };
@@ -254,7 +248,7 @@ export default function DashboardPage() {
         )}
 
         {/* Dashboard content — renders independently of AnimatePresence */}
-        {submittedMint && !isAnalyzing && (
+        {(submittedMint || submittedMintRef.current) && !isAnalyzing && (
           <motion.div
             key={submittedMint}
             initial={{ opacity: 0, y: 20 }}
