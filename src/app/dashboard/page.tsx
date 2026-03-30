@@ -101,7 +101,8 @@ export default function DashboardPage() {
       // Store in sessionStorage — survives Fast Refresh completely
       sessionStorage.setItem("mogul_mint", cleanMint);
       setAnalysis({ mint: cleanMint, data: data.data });
-      setIsAnalyzing(false);
+      setIsAnalyzing(false); // Close loader last
+      console.log("State updated: Analysis ready.");
 
     } catch (err) {
       console.error("Fatal Analysis Error:", err);
@@ -213,7 +214,7 @@ export default function DashboardPage() {
           )}
         </AnimatePresence>
 
-        {/* Empty state */}
+        {/* Empty state - Only show if no analysis AND not currently loading */}
         {!analysis && !isAnalyzing && (
           <div className="py-20 text-center opacity-20">
             <div className="text-8xl font-bold mb-4">Mogul</div>
@@ -221,8 +222,8 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Dashboard */}
-        {analysis && !isAnalyzing && (
+        {/* Dashboard - Render as soon as analysis exists, loader will handle overlay */}
+        {analysis && (
           <motion.div
             key={analysis.mint}
             initial={{ opacity: 0, y: 20 }}
