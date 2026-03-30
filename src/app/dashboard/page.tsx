@@ -83,6 +83,8 @@ export default function DashboardPage() {
 
     setErrorMsg("");
     setIsAnalyzing(true);
+    setTokenData(null);
+    setSubmittedMint("");
 
     try {
       console.log("Analyzing mint:", cleanMint);

@@ -10,13 +10,14 @@ const solanaConnectors = toSolanaWalletConnectors({
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  // Use a placeholder ID during build if the real one is missing
-  // to prevent the PrivyProvider from crashing the Next.js static generation.
-  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "clp_placeholder_id";
+  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+  if (!appId) {
+    console.error("CRITICAL: NEXT_PUBLIC_PRIVY_APP_ID is missing from environment variables.");
+  }
 
   return (
     <PrivyProvider
-      appId={appId}
+      appId={appId || "clp_placeholder_id"}
       config={{
         loginMethods: ["email", "wallet"],
         appearance: {
