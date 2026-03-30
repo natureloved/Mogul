@@ -56,7 +56,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="text-7xl md:text-[8rem] font-display leading-[0.85] tracking-tighter mb-10 text-balance uppercase"
+            className="text-5xl md:text-6xl font-display leading-[0.9] tracking-tighter mb-10 text-balance uppercase"
           >
             THE <span className="text-accent italic text-glow">AI COACH</span> <br/>
             YOUR BAGS DESERVE
@@ -98,15 +98,15 @@ export default function LandingPage() {
           ].map((feature, i) => (
             <div 
               key={i} 
-              className="group glass-panel p-10 rounded-[3rem] hover:border-accent/40 hover:bg-white/[0.05] transition-all duration-500 cursor-default"
+              className="group glass-panel p-6 rounded-2xl hover:border-accent/40 hover:bg-white/[0.05] transition-all duration-500 cursor-default"
             >
-              <div className="w-14 h-14 mb-8 rounded-2xl bg-accent/5 border border-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <div className="w-10 h-10 mb-4 rounded-xl bg-accent/5 border border-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                 {feature.icon}
               </div>
-              <h3 className="text-4xl font-display mb-4 group-hover:text-accent transition-colors duration-300">
+              <h3 className="text-2xl font-display mb-2 group-hover:text-accent transition-colors duration-300">
                 {feature.title}
               </h3>
-              <p className="font-sans text-white/40 leading-relaxed text-lg font-light">
+              <p className="font-sans text-white/40 leading-relaxed text-sm font-light">
                 {feature.desc}
               </p>
             </div>
