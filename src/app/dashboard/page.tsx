@@ -12,6 +12,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SentimentPulse from "@/components/SentimentPulse";
 import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
+import AlphaRadar from "@/components/AlphaRadar";
 import { ArrowRight, Zap, Loader2, Target, Share2, LogOut } from "lucide-react";
 
 export default function DashboardPage() {
@@ -277,23 +278,7 @@ export default function DashboardPage() {
               )}
               {activeTab === "AI Coach" && <AICoach tokenMint={submittedMint} />}
               {activeTab === "Content Gen" && <ContentGenerator tokenMint={submittedMint} />}
-              {activeTab === "Raid Mode" && (
-                <div className="p-12 rounded-3xl text-center max-w-2xl mx-auto border border-[#14F195]/20 bg-white/[0.02]">
-                  <div className="w-20 h-20 rounded-full bg-[#14F195]/10 flex items-center justify-center text-[#14F195] mx-auto mb-8 animate-pulse">
-                    <Target size={40} />
-                  </div>
-                  <h3 className="text-5xl font-bold mb-6">Enter Raid Mode</h3>
-                  <p className="text-white/50 text-xl mb-10 leading-relaxed">
-                    Generate high-intensity raid instructions and pre-written posts for your community to blast on X.
-                  </p>
-                  <button
-                    onClick={() => setActiveTab("Content Gen")}
-                    className="bg-[#14F195] text-black px-12 py-4 rounded-full font-bold text-xl hover:shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-all"
-                  >
-                    Initialize Mission
-                  </button>
-                </div>
-              )}
+              {activeTab === "Raid Mode" && <AlphaRadar tokenMint={submittedMint} />}
             </ErrorBoundary>
           </motion.div>
         )}
