@@ -12,7 +12,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SentimentPulse from "@/components/SentimentPulse";
 import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
-import { ArrowRight, Zap, Loader2, Target, Share2 } from "lucide-react";
+import { ArrowRight, Zap, Loader2, Target, Share2, LogOut } from "lucide-react";
 
 const DEMO_MINT = "AWc8uws9nh7pYjFQ8FzxavmP8WTUPwmQZAvK2yAPBAGS";
 
@@ -113,9 +113,10 @@ export default function DashboardPage() {
                 </div>
                 <button
                   onClick={logout}
-                  className="text-white/40 hover:text-red-400 font-mono text-[10px] uppercase tracking-widest transition-colors"
+                  title="Disconnect"
+                  className="text-white/30 hover:text-red-400 transition-colors p-1.5 rounded-full hover:bg-red-400/10"
                 >
-                  Disconnect
+                  <LogOut size={14} />
                 </button>
               </>
             ) : (
@@ -136,7 +137,7 @@ export default function DashboardPage() {
           <h2 className="text-4xl font-display mb-8">Analyze Your Token</h2>
           <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-purple-500/20 rounded-[2.1rem] blur opacity-30 group-focus-within:opacity-100 transition duration-1000"></div>
-            <div className="relative flex flex-col sm:flex-row gap-4 p-2 border border-white/10 bg-black rounded-[2rem] focus-within:border-accent/40 transition-colors mb-4 shadow-2xl">
+            <div className="relative flex flex-col sm:flex-row gap-2 p-1.5 border border-white/10 bg-black rounded-2xl focus-within:border-accent/40 transition-colors mb-4 shadow-2xl">
               <input
                 type="text"
                 id="mint-address"
@@ -145,12 +146,12 @@ export default function DashboardPage() {
                 value={mint}
                 onChange={(e) => setMint(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
-                className="flex-1 bg-transparent px-6 py-3 font-sans text-lg outline-none"
+                className="flex-1 bg-transparent px-4 py-2 font-sans text-sm outline-none"
               />
               <button
                 onClick={handleAnalyze}
                 disabled={isAnalyzing || !mint.trim()}
-                className="bg-accent text-black px-6 py-3 rounded-[1.2rem] font-display text-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-accent text-black px-5 py-2 rounded-xl font-display text-base hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isAnalyzing ? (
                   <Loader2 className="animate-spin" size={16} />
@@ -204,7 +205,7 @@ export default function DashboardPage() {
               className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center flex-col gap-6"
             >
               <div className="w-20 h-20 border-4 border-accent/20 border-t-accent rounded-full animate-spin"></div>
-              <div className="font-display text-4xl tracking-widest animate-pulse">
+              <div className="font-display text-lg tracking-widest animate-pulse">
                 ANALYZING ONCHAIN DATA
               </div>
               <p className="font-mono text-xs text-white/40">
