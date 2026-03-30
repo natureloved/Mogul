@@ -85,10 +85,13 @@ export default function DashboardPage() {
     setIsAnalyzing(true);
 
     try {
+      console.log("Analyzing mint:", cleanMint);
       const res = await fetch(`/api/token-stats?mint=${cleanMint}`);
       const data = await res.json();
+      console.log("Analysis Result:", data);
 
       if (!res.ok || !data.success) {
+        console.error("Analysis Error:", data.error);
         setErrorMsg(data.error || "Token not found or API error.");
         setIsAnalyzing(false);
         return;
@@ -100,7 +103,8 @@ export default function DashboardPage() {
       setSubmittedMint(cleanMint);
       setIsAnalyzing(false);
 
-    } catch (_err) {
+    } catch (err) {
+      console.error("Fatal Analysis Error:", err);
       setErrorMsg("Network error. Check your connection.");
       setIsAnalyzing(false);
     }
@@ -179,7 +183,7 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery:</span>
               <a 
-                href="https://bags.fm/explore" 
+                href="https://bags.fm" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-[#14F195] hover:bg-[#14F195]/10 transition-all flex items-center gap-2"
