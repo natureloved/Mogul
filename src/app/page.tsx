@@ -63,7 +63,7 @@ export default function LandingPage() {
           </motion.h2>
         </motion.div>
 
-        <p className="text-lg md:text-2xl font-sans text-white/50 mb-14 max-w-3xl leading-relaxed font-light">
+        <p className="text-base md:text-lg font-sans text-white/50 mb-14 max-w-3xl leading-relaxed font-light">
           Mogul aggregates live intelligence from <span className="text-white italic">Bags.fm</span> to provide real-time advice, social content generation, and onchain growth tracking for your token.
         </p>
 
@@ -86,7 +86,7 @@ export default function LandingPage() {
       </header>
 
       {/* Features Grid */}
-      <section className="relative z-10 px-6 py-32 md:px-12 max-w-7xl mx-auto border-t border-white/5">
+      <section className="relative z-10 px-6 py-12 md:px-12 max-w-7xl mx-auto border-t border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
           {[
             { title: "Token Intelligence", icon: <BarChart3 className="text-accent" />, desc: "Real-time analytics on liquidity, volume, and holder dynamics for every mission." },
