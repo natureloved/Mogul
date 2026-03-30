@@ -12,7 +12,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SentimentPulse from "@/components/SentimentPulse";
 import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
-import { ArrowRight, Zap, Loader2, Target } from "lucide-react";
+import { ArrowRight, Zap, Loader2, Target, Share2 } from "lucide-react";
 
 const DEMO_MINT = "AWc8uws9nh7pYjFQ8FzxavmP8WTUPwmQZAvK2yAPBAGS";
 
@@ -24,6 +24,17 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("Stats");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [shareCopied, setShareCopied] = useState(false);
+
+  const handleShare = async () => {
+    if (!submittedMint) return;
+    const url = `${window.location.origin}/score/${submittedMint}`;
+    await navigator.clipboard.writeText(url).catch(() => {});
+    const tweetText = encodeURIComponent(`My token just got its Mogul Score 🧠 — AI-powered intelligence by Mogul on @BagsApp #BagsHackathon`);
+    window.open(`https://twitter.com/intent/tweet?text=${tweetText}&url=${encodeURIComponent(url)}`, "_blank");
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
+  };
 
   // Wait for Privy to initialize
   if (!ready) {
@@ -81,23 +92,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-accent selection:text-black">
-      {/* Live Pulse Ticker */}
-      <div className="bg-accent/10 border-b border-accent/20 px-6 py-2 overflow-hidden sticky top-0 z-[60] backdrop-blur-md">
-        <div className="flex items-center gap-8 animate-marquee whitespace-nowrap">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div
-              key={i}
-              className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-accent uppercase font-bold pr-8 border-r border-accent/10"
-            >
-              <Zap size={10} className="fill-accent" /> Live Pulse: New Mogul
-              entry detected in Bag #{i * 123}
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Dashboard Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-6 py-4 md:px-12 sticky top-[40px] z-50">
+      <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-6 py-4 md:px-12 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link
             href="/"
@@ -226,8 +222,8 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-12"
           >
-            {/* Tabs */}
-            <div className="flex flex-wrap gap-3 justify-center">
+            {/* Tabs + Share */}
+            <div className="flex flex-wrap gap-3 justify-center items-center">
               {["Stats", "AI Coach", "Content Gen", "Raid Mode"].map((tab) => (
                 <button
                   key={tab}
@@ -241,6 +237,13 @@ export default function DashboardPage() {
                   {tab}
                 </button>
               ))}
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/50 hover:text-accent hover:border-accent/30 transition-all font-mono text-[10px] uppercase tracking-widest relative"
+              >
+                <Share2 size={12} />
+                {shareCopied ? "Link Copied!" : "Share Score Card"}
+              </button>
             </div>
 
             {/* Tab Content */}
