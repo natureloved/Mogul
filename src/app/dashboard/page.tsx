@@ -14,16 +14,18 @@ import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
 import { ArrowRight, Zap, Loader2, Target } from "lucide-react";
 
+const DEMO_MINT = "AWc8uws9nh7pYjFQ8FzxavmP8WTUPwmQZAvK2yAPBAGS";
+
 export default function DashboardPage() {
   const { ready, authenticated, login, logout, user } = usePrivy();
-  const [mint, setMint] = useState("");
-  const submittedMintRef = useRef("");
-  const [submittedMint, setSubmittedMint] = useState("");
+  const [mint, setMint] = useState(DEMO_MINT);
+  const submittedMintRef = useRef(DEMO_MINT);
+  const [submittedMint, setSubmittedMint] = useState(DEMO_MINT);
   const [activeTab, setActiveTab] = useState("Stats");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Wait for Privy to initialize before rendering anything
+  // Wait for Privy to initialize
   if (!ready) {
     return (
       <div className="min-h-screen bg-[#080808] flex items-center justify-center">
@@ -32,47 +34,15 @@ export default function DashboardPage() {
     );
   }
 
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-[#080808] flex items-center justify-center p-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full text-center space-y-8 p-12 border border-white/10 bg-white/[0.02] backdrop-blur-3xl rounded-[3rem]"
-        >
-          <div className="w-16 h-16 bg-accent rounded-2xl mx-auto flex items-center justify-center text-black font-display text-4xl shadow-[0_0_30px_rgba(20,241,149,0.2)]">
-            M
-          </div>
-          <h2 className="text-5xl font-display tracking-tight">Access Dashboard</h2>
-          <p className="font-sans text-white/50 text-lg">
-            Connect your wallet to start tracking your Bags.fm token intelligence.
-          </p>
-          <button
-            onClick={login}
-            className="w-full bg-accent text-black py-4 rounded-full font-display text-2xl hover:shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-all flex items-center justify-center gap-2"
-          >
-            Connect Wallet <ArrowRight size={20} />
-          </button>
-          <Link
-            href="/"
-            className="block text-white/30 font-mono text-xs uppercase tracking-widest hover:text-white transition-colors"
-          >
-            ← Return Home
-          </Link>
-        </motion.div>
-      </div>
-    );
-  }
-
-  const identifier = user?.wallet?.address
-    ? `${user.wallet.address.slice(0, 4)}...${user.wallet.address.slice(-4)}`
-    : user?.email?.address
-    ? user.email.address
-    : "ID: " + user?.id?.slice(0, 8);
+  const identifier = authenticated
+    ? user?.wallet?.address
+      ? `${user.wallet.address.slice(0, 4)}...${user.wallet.address.slice(-4)}`
+      : user?.email?.address ?? "ID: " + user?.id?.slice(0, 8)
+    : null;
 
   const sampleMints = [
-    { name: "Sample 1", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" },
-    { name: "Sample 2", address: "JUPyiHrh2jqEJEVgdCZiZbsEKfujBv245P1pHOxrY78" },
+    { name: "Demo Token", address: DEMO_MINT },
+    { name: "Sample 2", address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" },
   ];
 
   const handleAnalyze = async () => {
@@ -104,6 +74,7 @@ export default function DashboardPage() {
 
   const handleSampleClick = (address: string) => {
     setMint(address);
+    submittedMintRef.current = address;
     setSubmittedMint(address);
     setErrorMsg("");
   };
@@ -138,16 +109,27 @@ export default function DashboardPage() {
             Mogul
           </Link>
           <div className="flex items-center gap-6">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
-              <span className="font-mono text-[10px]">{identifier}</span>
-            </div>
-            <button
-              onClick={logout}
-              className="text-white/40 hover:text-red-400 font-mono text-[10px] uppercase tracking-widest transition-colors"
-            >
-              Disconnect
-            </button>
+            {identifier ? (
+              <>
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
+                  <span className="font-mono text-[10px]">{identifier}</span>
+                </div>
+                <button
+                  onClick={logout}
+                  className="text-white/40 hover:text-red-400 font-mono text-[10px] uppercase tracking-widest transition-colors"
+                >
+                  Disconnect
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={login}
+                className="flex items-center gap-2 bg-accent/10 border border-accent/30 text-accent px-4 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-all"
+              >
+                Connect Wallet <ArrowRight size={12} />
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -204,8 +186,7 @@ export default function DashboardPage() {
                 {s.name}
               </button>
             ))}
-            
-            <a 
+            <a
               href="https://bags.fm"
               target="_blank"
               rel="noopener noreferrer"
@@ -237,18 +218,8 @@ export default function DashboardPage() {
           )}
         </AnimatePresence>
 
-        {/* Empty state */}
-        {!submittedMint && !isAnalyzing && (
-          <div className="py-20 text-center opacity-20">
-            <div className="text-8xl font-display mb-4">Mogul</div>
-            <p className="font-sans italic text-xl">
-              Enter a mint address above to generate your growth dashboard
-            </p>
-          </div>
-        )}
-
-        {/* Dashboard content — renders independently of AnimatePresence */}
-        {(submittedMint || submittedMintRef.current) && !isAnalyzing && (
+        {/* Dashboard content */}
+        {submittedMint && !isAnalyzing && (
           <motion.div
             key={submittedMint}
             initial={{ opacity: 0, y: 20 }}
