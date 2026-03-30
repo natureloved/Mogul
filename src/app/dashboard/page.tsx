@@ -23,12 +23,13 @@ export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const [submittedMint, setSubmittedMint] = useState("");
-  const [tokenData, setTokenData] = useState<any>(null);
+  const [analysis, setAnalysis] = useState<{ mint: string; data: any } | null>(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("mogul_mint");
-    if (saved) setSubmittedMint(saved);
+    if (saved) {
+      setAnalysis({ mint: saved, data: null });
+    }
   }, []);
 
   if (!ready) {
@@ -83,8 +84,6 @@ export default function DashboardPage() {
 
     setErrorMsg("");
     setIsAnalyzing(true);
-    setTokenData(null);
-    setSubmittedMint("");
 
     try {
       console.log("Analyzing mint:", cleanMint);
@@ -101,8 +100,7 @@ export default function DashboardPage() {
 
       // Store in sessionStorage — survives Fast Refresh completely
       sessionStorage.setItem("mogul_mint", cleanMint);
-      setTokenData(data.data);
-      setSubmittedMint(cleanMint);
+      setAnalysis({ mint: cleanMint, data: data.data });
       setIsAnalyzing(false);
 
     } catch (err) {
@@ -113,15 +111,14 @@ export default function DashboardPage() {
   };
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/score/${submittedMint}`;
+    if (!analysis) return;
+    const url = `${window.location.origin}/score/${analysis.mint}`;
     await navigator.clipboard.writeText(url);
     const tweet = `https://twitter.com/intent/tweet?text=My%20token%20just%20got%20its%20Mogul%20Score%20%F0%9F%A7%A0%20%E2%80%94%20AI-powered%20intelligence%20by%20Mogul%20on%20%40BagsApp%20%23BagsHackathon&url=${encodeURIComponent(url)}`;
     window.open(tweet, "_blank");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -217,7 +214,7 @@ export default function DashboardPage() {
         </AnimatePresence>
 
         {/* Empty state */}
-        {!submittedMint && !isAnalyzing && (
+        {!analysis && !isAnalyzing && (
           <div className="py-20 text-center opacity-20">
             <div className="text-8xl font-bold mb-4">Mogul</div>
             <p className="italic text-xl">Enter a mint address above to generate your growth dashboard</p>
@@ -225,9 +222,9 @@ export default function DashboardPage() {
         )}
 
         {/* Dashboard */}
-        {submittedMint && !isAnalyzing && (
+        {analysis && !isAnalyzing && (
           <motion.div
-            key={submittedMint}
+            key={analysis.mint}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-8"
@@ -267,23 +264,23 @@ export default function DashboardPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
                       <div className="flex flex-col md:flex-row gap-8">
-                        <GrowthScore tokenMint={submittedMint} initialData={tokenData} />
+                        <GrowthScore tokenMint={analysis.mint} initialData={analysis.data} />
                         <div className="flex-1 space-y-6">
-                          <SentimentPulse score={tokenData?.growthScore || 82} />
+                          <SentimentPulse score={analysis.data?.growthScore || 82} />
                           <BondingCurveHUD progress={64} />
                         </div>
                       </div>
-                      <TokenStats tokenMint={submittedMint} initialData={tokenData} />
+                      <TokenStats tokenMint={analysis.mint} initialData={analysis.data} />
                     </div>
                     <div className="lg:col-span-1">
-                      <WhaleTracker tokenMint={submittedMint} />
+                      <WhaleTracker tokenMint={analysis.mint} />
                     </div>
                   </div>
                 </div>
               )}
-              {activeTab === "AI Coach" && <AICoach tokenMint={submittedMint} />}
-              {activeTab === "Content Gen" && <ContentGenerator tokenMint={submittedMint} />}
-              {activeTab === "Raid Mode" && <AlphaRadar tokenMint={submittedMint} />}
+              {activeTab === "AI Coach" && <AICoach tokenMint={analysis.mint} />}
+              {activeTab === "Content Gen" && <ContentGenerator tokenMint={analysis.mint} />}
+              {activeTab === "Raid Mode" && <AlphaRadar tokenMint={analysis.mint} />}
             </ErrorBoundary>
           </motion.div>
         )}
