@@ -24,6 +24,7 @@ export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
 
   const [submittedMint, setSubmittedMint] = useState("");
+  const [tokenData, setTokenData] = useState<any>(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("mogul_mint");
@@ -95,6 +96,7 @@ export default function DashboardPage() {
 
       // Store in sessionStorage — survives Fast Refresh completely
       sessionStorage.setItem("mogul_mint", cleanMint);
+      setTokenData(data.data);
       setSubmittedMint(cleanMint);
       setIsAnalyzing(false);
 
@@ -262,13 +264,13 @@ export default function DashboardPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
                       <div className="flex flex-col md:flex-row gap-8">
-                        <GrowthScore tokenMint={submittedMint} />
+                        <GrowthScore tokenMint={submittedMint} initialData={tokenData} />
                         <div className="flex-1 space-y-6">
-                          <SentimentPulse score={82} />
+                          <SentimentPulse score={tokenData?.growthScore || 82} />
                           <BondingCurveHUD progress={64} />
                         </div>
                       </div>
-                      <TokenStats tokenMint={submittedMint} />
+                      <TokenStats tokenMint={submittedMint} initialData={tokenData} />
                     </div>
                     <div className="lg:col-span-1">
                       <WhaleTracker tokenMint={submittedMint} />

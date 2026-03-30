@@ -7,11 +7,20 @@ interface GrowthStats {
   lastActiveDays: number;
 }
 
-export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
+export default function GrowthScore({ tokenMint, initialData }: { tokenMint: string, initialData?: any }) {
   const [stats, setStats] = useState<GrowthStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
+    if (initialData) {
+      setStats({ 
+        growthScore: initialData.growthScore || 0, 
+        lastActiveDays: initialData.lastActivityDays || 0 
+      });
+      setLoading(false);
+      return;
+    }
+
     const fetchStats = async () => {
       setLoading(true);
       try {
@@ -35,7 +44,7 @@ export default function GrowthScore({ tokenMint }: { tokenMint: string }) {
     };
 
     fetchStats();
-  }, [tokenMint]);
+  }, [tokenMint, initialData]);
 
   if (loading) {
     return (

@@ -11,12 +11,25 @@ interface TokenStatsData {
   royaltyPercentage: number;
 }
 
-export default function TokenStats({ tokenMint }: { tokenMint: string }) {
+export default function TokenStats({ tokenMint, initialData }: { tokenMint: string, initialData?: any }) {
   const [stats, setStats] = useState<TokenStatsData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (initialData) {
+      setStats({
+        lifetimeFees: initialData.totalFees || 0,
+        claimableNow: initialData.claimableNow || 0,
+        feeVelocity7d: initialData.feeVelocity || 0,
+        totalClaimEvents: initialData.claimEvents?.length || 0,
+        creatorName: initialData.creators?.[0]?.name || "Creator",
+        royaltyPercentage: initialData.creators?.[0]?.royalty || 5,
+      });
+      setLoading(false);
+      return;
+    }
+
     const fetchStats = async () => {
       setLoading(true);
       setError(false);
@@ -53,7 +66,7 @@ export default function TokenStats({ tokenMint }: { tokenMint: string }) {
     };
 
     fetchStats();
-  }, [tokenMint]);
+  }, [tokenMint, initialData]);
 
   if (loading) {
     return (
