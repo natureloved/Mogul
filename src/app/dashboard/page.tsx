@@ -1,7 +1,7 @@
 "use client";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import GrowthScore from "@/components/GrowthScore";
@@ -12,7 +12,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SentimentPulse from "@/components/SentimentPulse";
 import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
-import { ArrowRight, Zap, Loader2, Target, Share2 } from "lucide-react";
+import { ArrowRight, Zap, Loader2, Target, Share2, LogOut } from "lucide-react";
 
 export default function DashboardPage() {
   const { ready, authenticated, login, logout, user } = usePrivy();
@@ -22,9 +22,12 @@ export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [copied, setCopied] = useState(false);
 
-  // Use ref as source of truth — immune to Fast Refresh wipes
-  const mintRef = useRef("");
-  const [displayMint, setDisplayMint] = useState("");
+  const [submittedMint, setSubmittedMint] = useState("");
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("mogul_mint");
+    if (saved) setSubmittedMint(saved);
+  }, []);
 
   if (!ready) {
     return (
@@ -89,9 +92,9 @@ export default function DashboardPage() {
         return;
       }
 
-      // Write to ref first — survives any re-render
-      mintRef.current = cleanMint;
-      setDisplayMint(cleanMint);
+      // Store in sessionStorage — survives Fast Refresh completely
+      sessionStorage.setItem("mogul_mint", cleanMint);
+      setSubmittedMint(cleanMint);
       setIsAnalyzing(false);
 
     } catch (_err) {
@@ -101,7 +104,7 @@ export default function DashboardPage() {
   };
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/score/${mintRef.current}`;
+    const url = `${window.location.origin}/score/${submittedMint}`;
     await navigator.clipboard.writeText(url);
     const tweet = `https://twitter.com/intent/tweet?text=My%20token%20just%20got%20its%20Mogul%20Score%20%F0%9F%A7%A0%20%E2%80%94%20AI-powered%20intelligence%20by%20Mogul%20on%20%40BagsApp%20%23BagsHackathon&url=${encodeURIComponent(url)}`;
     window.open(tweet, "_blank");
@@ -109,7 +112,7 @@ export default function DashboardPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const activeMint = mintRef.current || displayMint;
+
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -127,9 +130,10 @@ export default function DashboardPage() {
             </div>
             <button
               onClick={logout}
-              className="text-white/40 hover:text-red-400 text-[10px] uppercase tracking-widest transition-colors"
+              className="p-2 text-white/40 hover:text-red-400 transition-colors"
+              title="Disconnect"
             >
-              Disconnect
+              <LogOut size={18} />
             </button>
           </div>
         </div>
@@ -176,8 +180,8 @@ export default function DashboardPage() {
                 key={s.address}
                 onClick={() => {
                   setMint(s.address);
-                  mintRef.current = s.address;
-                  setDisplayMint(s.address);
+                  sessionStorage.setItem("mogul_mint", s.address);
+                  setSubmittedMint(s.address);
                 }}
                 className="px-4 py-1.5 bg-white/5 border border-white/5 rounded-full text-[10px] font-mono text-white/40 hover:text-[#14F195] hover:border-[#14F195]/20 transition-all"
               >
@@ -205,7 +209,7 @@ export default function DashboardPage() {
         </AnimatePresence>
 
         {/* Empty state */}
-        {!activeMint && !isAnalyzing && (
+        {!submittedMint && !isAnalyzing && (
           <div className="py-20 text-center opacity-20">
             <div className="text-8xl font-bold mb-4">Mogul</div>
             <p className="italic text-xl">Enter a mint address above to generate your growth dashboard</p>
@@ -213,9 +217,9 @@ export default function DashboardPage() {
         )}
 
         {/* Dashboard */}
-        {activeMint && !isAnalyzing && (
+        {submittedMint && !isAnalyzing && (
           <motion.div
-            key={activeMint}
+            key={submittedMint}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-8"
@@ -255,22 +259,22 @@ export default function DashboardPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
                       <div className="flex flex-col md:flex-row gap-8">
-                        <GrowthScore tokenMint={activeMint} />
+                        <GrowthScore tokenMint={submittedMint} />
                         <div className="flex-1 space-y-6">
                           <SentimentPulse score={82} />
                           <BondingCurveHUD progress={64} />
                         </div>
                       </div>
-                      <TokenStats tokenMint={activeMint} />
+                      <TokenStats tokenMint={submittedMint} />
                     </div>
                     <div className="lg:col-span-1">
-                      <WhaleTracker tokenMint={activeMint} />
+                      <WhaleTracker tokenMint={submittedMint} />
                     </div>
                   </div>
                 </div>
               )}
-              {activeTab === "AI Coach" && <AICoach tokenMint={activeMint} />}
-              {activeTab === "Content Gen" && <ContentGenerator tokenMint={activeMint} />}
+              {activeTab === "AI Coach" && <AICoach tokenMint={submittedMint} />}
+              {activeTab === "Content Gen" && <ContentGenerator tokenMint={submittedMint} />}
               {activeTab === "Raid Mode" && (
                 <div className="p-12 rounded-3xl text-center max-w-2xl mx-auto border border-[#14F195]/20 bg-white/[0.02]">
                   <div className="w-20 h-20 rounded-full bg-[#14F195]/10 flex items-center justify-center text-[#14F195] mx-auto mb-8 animate-pulse">
