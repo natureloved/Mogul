@@ -15,6 +15,7 @@ export async function GET(request: Request) {
     const insight = await getDashboardInsight(tokenData);
     return NextResponse.json({ success: true, insight });
   } catch (error) {
+    console.error("DASHBOARD INSIGHT API ERROR:", error);
     return NextResponse.json({
       success: false,
       error: error instanceof Error ? error.message : "Failed to generate insight",

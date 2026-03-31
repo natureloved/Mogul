@@ -131,6 +131,8 @@ export default function DashboardPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  console.log("Rendering Dashboard. analysis:", !!analysis, "isAnalyzing:", isAnalyzing, "mint:", analysis?.mint);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-4 py-4 md:px-12 sticky top-0 z-50">
