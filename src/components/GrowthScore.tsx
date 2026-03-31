@@ -46,7 +46,7 @@ export default function GrowthScore({ tokenMint, initialData }: { tokenMint: str
     fetchStats();
   }, [tokenMint, initialData]);
 
-  if (loading) {
+  if (loading || (!stats && initialData)) {
     return (
       <div className="w-full md:w-[320px] p-8 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] flex flex-col items-center justify-center min-h-[400px]">
         <div className="w-32 h-32 rounded-full border-4 border-accent/20 border-t-accent animate-spin mb-6"></div>

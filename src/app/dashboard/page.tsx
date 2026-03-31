@@ -13,7 +13,7 @@ import SentimentPulse from "@/components/SentimentPulse";
 import BondingCurveHUD from "@/components/BondingCurveHUD";
 import WhaleTracker from "@/components/WhaleTracker";
 import AlphaRadar from "@/components/AlphaRadar";
-import { ArrowRight, Zap, Loader2, Target, Share2, LogOut } from "lucide-react";
+import { ArrowRight, Zap, Loader2, Target, Share2, LogOut, Sparkles } from "lucide-react";
 
 export default function DashboardPage() {
   const { ready, authenticated, login, logout, user } = usePrivy();
@@ -25,6 +25,7 @@ export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false);
 
   const [analysis, setAnalysis] = useState<{ mint: string; data: any } | null>(null);
+  const [insight, setInsight] = useState<string | null>(null);
 
   // Set mount flag and load from storage
   useEffect(() => {
@@ -32,6 +33,11 @@ export default function DashboardPage() {
     const saved = sessionStorage.getItem("mogul_mint");
     if (saved) {
       setAnalysis({ mint: saved, data: null });
+      // Fetch insight if we have a saved mint
+      fetch(`/api/dashboard-insight?mint=${saved}`)
+        .then(r => r.json())
+        .then(d => { if (d.success) setInsight(d.insight); })
+        .catch(err => console.error("Failed to load saved insight:", err));
     }
   }, []);
 
@@ -87,9 +93,21 @@ export default function DashboardPage() {
       if (!res.ok || !data.success) {
         setErrorMsg(data.error || "Token not found on Bags.fm.");
         setAnalysis(null);
+        setInsight(null);
         setIsAnalyzing(false);
         return;
       }
+
+      // Fetch AI Insight separately but don't block the main dashboard load
+      fetch(`/api/dashboard-insight?mint=${cleanMint}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.success) {
+            setInsight(d.insight);
+            console.log("AI Insight loaded for:", cleanMint);
+          }
+        })
+        .catch(err => console.error("Insight fetch failed:", err));
 
       sessionStorage.setItem("mogul_mint", cleanMint);
       setAnalysis({ mint: cleanMint, data: data.data });
@@ -206,8 +224,30 @@ export default function DashboardPage() {
                      <div className="flex flex-col md:flex-row gap-8">
                        <GrowthScore tokenMint={analysis.mint} initialData={analysis.data} />
                        <div className="flex-1 space-y-6">
-                         <SentimentPulse score={analysis.data?.growthScore || 82} />
-                         <BondingCurveHUD progress={64} />
+                         {/* AI Intelligence Brief */}
+                         <div className="p-6 border border-[#14F195]/20 bg-[#14F195]/5 backdrop-blur-3xl rounded-[2rem] relative overflow-hidden group">
+                           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                             <Zap size={40} className="text-[#14F195]" />
+                           </div>
+                           <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#14F195] mb-3 flex items-center gap-2">
+                             <Sparkles size={12} /> AI Intelligence Brief
+                           </h4>
+                           {insight ? (
+                             <p className="text-white/80 text-sm leading-relaxed font-sans italic">
+                               "{insight}"
+                             </p>
+                           ) : (
+                             <div className="flex items-center gap-3 py-2">
+                               <div className="w-4 h-4 border-2 border-[#14F195] border-t-transparent rounded-full animate-spin" />
+                               <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest animate-pulse">Generating sharp insight...</span>
+                             </div>
+                           )}
+                         </div>
+
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                           <SentimentPulse score={analysis.data?.growthScore || 82} />
+                           <BondingCurveHUD progress={64} />
+                         </div>
                        </div>
                      </div>
                      <TokenStats tokenMint={analysis.mint} initialData={analysis.data} />

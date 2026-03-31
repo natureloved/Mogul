@@ -68,7 +68,7 @@ export default function TokenStats({ tokenMint, initialData }: { tokenMint: stri
     fetchStats();
   }, [tokenMint, initialData]);
 
-  if (loading) {
+  if (loading || (!stats && initialData)) {
     return (
       <div className="flex-1 p-6 md:p-8 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] animate-pulse">
         <div className="h-8 w-48 bg-white/5 rounded-lg mb-8"></div>
