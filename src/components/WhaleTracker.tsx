@@ -12,42 +12,42 @@ export default function WhaleTracker({ tokenMint }: { tokenMint: string }) {
   ];
 
   return (
-    <div className="p-8 glass-panel rounded-[3rem] h-full overflow-hidden flex flex-col">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
-            <Anchor size={20} />
+    <div className="p-5 md:p-6 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2rem] h-full overflow-hidden flex flex-col transition-all hover:border-white/10">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent">
+            <Anchor size={16} />
           </div>
           <div>
-            <h3 className="text-3xl font-display uppercase tracking-tighter">Whale Tracker</h3>
-            <p className="font-mono text-[8px] text-white/40 tracking-widest uppercase italic">Recent Large Txns</p>
+            <h3 className="text-xl font-display uppercase tracking-wider">Whale Tracker</h3>
+            <p className="font-mono text-[7px] text-white/20 tracking-[0.2em] uppercase italic leading-none">Recent Activity</p>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+      <div className="flex-1 space-y-2.5 overflow-y-auto pr-1 no-scrollbar">
         {transactions.map((tx, i) => (
           <motion.div 
             key={i}
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between hover:bg-white/[0.05] transition-colors"
+            transition={{ delay: i * 0.05 }}
+            className="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/[0.04] transition-colors"
           >
-            <div className="flex items-center gap-4">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${tx.type === 'buy' ? 'bg-accent/10 text-accent' : 'bg-red-400/10 text-red-400'}`}>
-                {tx.type === 'buy' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+            <div className="flex items-center gap-3">
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${tx.type === 'buy' ? 'bg-accent/10 text-accent' : 'bg-red-400/10 text-red-400'}`}>
+                {tx.type === 'buy' ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
               </div>
               <div>
-                <div className="font-display text-lg leading-none mb-1">{tx.amount}</div>
-                <div className="font-mono text-[8px] text-white/30 uppercase tracking-widest flex items-center gap-1">
+                <div className="font-display text-base leading-none mb-0.5">{tx.amount}</div>
+                <div className="font-mono text-[7px] text-white/20 uppercase tracking-widest flex items-center gap-1">
                   <Clock size={8} /> {tx.time} · {tx.address}
                 </div>
               </div>
             </div>
             <div className="text-right">
-              <div className="font-display text-md">{tx.value}</div>
-              <div className={`font-mono text-[8px] uppercase tracking-widest ${tx.type === 'buy' ? 'text-accent' : 'text-red-400'}`}>
+              <div className="font-display text-sm leading-none mb-0.5">{tx.value}</div>
+              <div className={`font-mono text-[7px] uppercase tracking-widest ${tx.type === 'buy' ? 'text-accent' : 'text-red-400'}`}>
                 {tx.type === 'buy' ? 'ENTRY' : 'EXIT'}
               </div>
             </div>
@@ -55,12 +55,12 @@ export default function WhaleTracker({ tokenMint }: { tokenMint: string }) {
         ))}
       </div>
       
-      <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
+      <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-            <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/40">Monitoring Webhooks</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
+            <span className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/20">Live Feed</span>
          </div>
-         <button className="text-[8px] font-mono uppercase tracking-widest text-accent hover:underline">View All →</button>
+         <button className="text-[7px] font-mono uppercase tracking-[0.2em] text-accent/60 hover:text-accent transition-colors">Details →</button>
       </div>
     </div>
   );

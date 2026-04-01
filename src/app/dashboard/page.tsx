@@ -137,8 +137,8 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl px-4 py-4 md:px-12 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl md:text-2xl font-bold hover:text-[#14F195] transition-colors flex items-center gap-2 text-white">
-            <div className="w-5 h-5 md:w-6 md:h-6 rounded bg-[#14F195] text-black flex items-center justify-center text-[10px] md:text-xs font-bold">M</div>
+          <Link href="/" className="text-lg font-bold hover:text-[#14F195] transition-colors flex items-center gap-2 text-white">
+            <div className="w-5 h-5 rounded bg-[#14F195] text-black flex items-center justify-center text-[10px] font-bold">M</div>
             Mogul
           </Link>
           <div className="flex items-center gap-3 md:gap-6">
@@ -153,9 +153,9 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-12 md:px-12">
+      <main className="max-w-7xl mx-auto px-6 py-8 md:px-12">
         <section className="max-w-3xl mx-auto mb-16 text-center">
-          <h2 className="text-4xl font-bold mb-8 text-white">Analyze Your Token</h2>
+          <h2 className="text-3xl font-bold mb-6 text-white uppercase tracking-tight">Token Command</h2>
           <div className="flex flex-col sm:flex-row gap-2 p-1.5 border border-white/10 bg-black rounded-2xl focus-within:border-[#14F195]/40 transition-colors mb-4 mx-auto max-w-[90vw] sm:max-w-none">
             <input
               id="mint-address"
@@ -221,40 +221,44 @@ export default function DashboardPage() {
 
              <ErrorBoundary>
                {activeTab === "Stats" && (
-                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                   <div className="lg:col-span-2 space-y-8">
-                     <div className="flex flex-col md:flex-row gap-8">
-                       <GrowthScore tokenMint={analysis.mint} initialData={analysis.data} />
-                       <div className="flex-1 space-y-6">
-                         {/* AI Intelligence Brief */}
-                         <div className="p-6 border border-[#14F195]/20 bg-[#14F195]/5 backdrop-blur-3xl rounded-[2rem] relative overflow-hidden group">
-                           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                             <Zap size={40} className="text-[#14F195]" />
-                           </div>
-                           <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#14F195] mb-3 flex items-center gap-2">
-                             <Sparkles size={12} /> AI Intelligence Brief
-                           </h4>
-                           {insight ? (
-                             <p className="text-white/80 text-sm leading-relaxed font-sans italic">
-                               "{insight}"
-                             </p>
-                           ) : (
-                             <div className="flex items-center gap-3 py-2">
-                               <div className="w-4 h-4 border-2 border-[#14F195] border-t-transparent rounded-full animate-spin" />
-                               <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest animate-pulse">Generating sharp insight...</span>
-                             </div>
-                           )}
-                         </div>
-
-                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                           <SentimentPulse score={analysis.data?.growthScore || 82} />
-                           <BondingCurveHUD progress={64} />
-                         </div>
+                 <div className="grid grid-cols-12 gap-5">
+                   {/* Top Indicators */}
+                   <div className="col-span-12 md:col-span-3">
+                     <GrowthScore tokenMint={analysis.mint} initialData={analysis.data} />
+                   </div>
+                   
+                   <div className="col-span-12 md:col-span-6">
+                     <div className="h-full p-5 border border-[#14F195]/20 bg-[#14F195]/5 backdrop-blur-3xl rounded-[2rem] relative overflow-hidden group flex flex-col justify-center">
+                       <div className="absolute top-0 right-0 p-3 opacity-5">
+                         <Zap size={32} className="text-[#14F195]" />
                        </div>
+                       <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#14F195] mb-2 flex items-center gap-2">
+                         <Sparkles size={10} /> AI Intel
+                       </h4>
+                       {insight ? (
+                         <p className="text-white/80 text-xs md:text-sm leading-relaxed font-sans italic">
+                           "{insight}"
+                         </p>
+                       ) : (
+                         <div className="flex items-center gap-2 py-1">
+                           <div className="w-3 h-3 border-2 border-[#14F195] border-t-transparent rounded-full animate-spin" />
+                           <span className="text-[9px] font-mono text-white/20 uppercase tracking-widest animate-pulse">Scanning...</span>
+                         </div>
+                       )}
                      </div>
+                   </div>
+
+                   <div className="col-span-12 md:col-span-3 space-y-4">
+                     <SentimentPulse score={analysis.data?.growthScore || 82} />
+                     <BondingCurveHUD progress={64} />
+                   </div>
+
+                   {/* Main Stats Area */}
+                   <div className="col-span-12 lg:col-span-8">
                      <TokenStats tokenMint={analysis.mint} initialData={analysis.data} />
                    </div>
-                   <div className="lg:col-span-1">
+
+                   <div className="col-span-12 lg:col-span-4">
                      <WhaleTracker tokenMint={analysis.mint} />
                    </div>
                  </div>

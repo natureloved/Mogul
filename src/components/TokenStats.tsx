@@ -99,20 +99,20 @@ export default function TokenStats({ tokenMint, initialData }: { tokenMint: stri
   }
 
   const StatCard = ({ label, value, unit, accented = false }: { label: string, value: string | number, unit: string, accented?: boolean }) => (
-    <div className="p-5 md:p-6 rounded-2xl bg-white/[0.03] border border-white/5 group hover:border-white/10 transition-colors">
-      <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-white/30 mb-2">{label}</p>
-      <div className="flex items-baseline gap-2">
-        <span className={`font-mono text-2xl md:text-3xl font-bold tracking-tighter ${accented ? 'text-accent' : 'text-white'}`}>
+    <div className="p-4 md:p-5 rounded-2xl bg-white/[0.03] border border-white/5 group hover:border-white/10 transition-colors">
+      <p className="font-mono text-[8px] md:text-[9px] uppercase tracking-widest text-white/20 mb-1">{label}</p>
+      <div className="flex items-baseline gap-1.5">
+        <span className={`font-mono text-xl md:text-2xl font-bold tracking-tighter ${accented ? 'text-accent' : 'text-white'}`}>
           {value}
         </span>
-        <span className="font-mono text-[9px] md:text-[10px] text-white/20 uppercase tracking-widest">{unit}</span>
+        <span className="font-mono text-[8px] md:text-[9px] text-white/10 uppercase tracking-widest">{unit}</span>
       </div>
     </div>
   );
 
   return (
-    <div className="flex-1 p-6 md:p-8 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem]">
-      <h3 className="text-2xl md:text-3xl font-display mb-6 md:mb-8 text-white/80 uppercase tracking-wider">Token Intelligence</h3>
+    <div className="p-5 md:p-6 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2rem]">
+      <h3 className="text-xl md:text-2xl font-display mb-4 md:mb-6 text-white/60 uppercase tracking-wider">Token Intelligence</h3>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         <StatCard 
@@ -138,19 +138,19 @@ export default function TokenStats({ tokenMint, initialData }: { tokenMint: stri
         />
       </div>
 
-      <div className="p-5 md:p-6 rounded-[1.5rem] bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent font-mono text-sm md:text-lg">
+      <div className="p-4 md:p-5 rounded-[1.5rem] bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-mono text-sm">
             {stats.creatorName[0].toUpperCase()}
           </div>
           <div>
-            <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-white/30">Creator</p>
-            <p className="font-sans font-medium text-sm md:text-base">@{stats.creatorName}</p>
+            <p className="font-mono text-[8px] md:text-[9px] uppercase tracking-widest text-white/20">Creator</p>
+            <p className="font-sans font-medium text-xs md:text-sm">@{stats.creatorName}</p>
           </div>
         </div>
-        <div className="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-white/5 pt-4 sm:pt-0">
-          <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-white/30">Royalty Rate</p>
-          <p className="font-mono text-lg md:text-xl text-white/80">{stats.royaltyPercentage}%</p>
+        <div className="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-white/5 pt-3 sm:pt-0">
+          <p className="font-mono text-[8px] md:text-[9px] uppercase tracking-widest text-white/20">Royalty Rate</p>
+          <p className="font-mono text-base md:text-lg text-white/60">{stats.royaltyPercentage}%</p>
         </div>
       </div>
     </div>

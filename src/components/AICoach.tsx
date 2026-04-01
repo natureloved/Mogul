@@ -70,28 +70,28 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
   };
 
   return (
-    <div className="flex flex-col h-[500px] md:h-[600px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3rem] overflow-hidden">
+    <div className="flex flex-col h-[450px] md:h-[500px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2rem] overflow-hidden transition-all hover:border-white/10">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 md:px-8 md:py-4 border-b border-white/5 bg-white/[0.02]">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
-            <Sparkles size={18} />
+      <div className="flex items-center justify-between px-5 py-3 md:px-6 md:py-3 border-b border-white/5 bg-white/[0.02]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent">
+            <Sparkles size={16} />
           </div>
           <div>
-            <h3 className="font-display text-xl md:text-2xl tracking-wide">AI Growth Coach</h3>
-            <p className="text-[9px] md:text-[10px] font-mono text-white/30 uppercase tracking-widest">Powered by Claude</p>
+            <h3 className="font-display text-lg md:text-xl tracking-tight">Growth Coach</h3>
+            <p className="text-[8px] font-mono text-white/20 uppercase tracking-widest">Powered by Claude</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-          <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">Online</span>
+          <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
+          <span className="text-[8px] font-mono text-white/20 uppercase tracking-widest">Online</span>
         </div>
       </div>
 
       {/* Messages */}
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-hide md:max-h-[420px]"
+        className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide"
       >
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
@@ -118,17 +118,17 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
           messages.map((msg, i) => (
             <div 
               key={i} 
-              className={`flex items-end gap-3 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+              className={`flex items-start gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                msg.role === "user" ? "bg-purple-500/20 text-purple-400" : "bg-white/5 text-white/40"
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                msg.role === "user" ? "bg-accent/10 text-accent" : "bg-white/5 text-white/40"
               }`}>
-                {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
+                {msg.role === "user" ? <User size={14} /> : <Bot size={14} />}
               </div>
-              <div className={`max-w-[80%] p-4 rounded-3xl font-sans text-sm leading-relaxed ${
+              <div className={`max-w-[85%] p-3 md:p-4 rounded-2xl font-sans text-xs md:text-sm leading-relaxed ${
                 msg.role === "user" 
-                  ? "bg-purple-500 text-white rounded-br-none" 
-                  : "bg-white/10 text-white/90 rounded-bl-none"
+                  ? "bg-accent text-black rounded-tr-none" 
+                  : "bg-white/5 text-white/80 rounded-tl-none border border-white/5"
               }`}>
                 {msg.content}
               </div>
@@ -136,38 +136,38 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
           ))
         )}
         {loading && (
-          <div className="flex items-end gap-3">
-            <div className="w-8 h-8 rounded-full bg-white/5 text-white/40 flex items-center justify-center">
-              <Bot size={16} />
+          <div className="flex items-start gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-white/5 text-white/40 flex items-center justify-center">
+              <Bot size={14} />
             </div>
-            <div className="bg-white/10 p-4 rounded-3xl rounded-bl-none flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce delay-100"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce delay-200"></div>
+            <div className="bg-white/5 border border-white/5 p-3 rounded-2xl rounded-tl-none flex gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce delay-100"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce delay-200"></div>
             </div>
           </div>
         )}
       </div>
 
       {/* Input */}
-      <div className="p-6 border-t border-white/5 bg-white/[0.02]">
-        <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full px-6 py-2 focus-within:border-accent/40 transition-colors">
+      <div className="p-4 md:p-5 border-t border-white/5 bg-white/[0.01]">
+        <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-1.5 focus-within:border-accent/30 transition-colors">
           <input
             id="coach-message"
             name="coach-message"
             type="text"
-            placeholder="Ask your coach anything..."
+            placeholder="Ask anything..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend(input)}
-            className="flex-1 bg-transparent py-2 grow outline-none font-sans text-sm"
+            className="flex-1 bg-transparent py-1.5 grow outline-none font-sans text-xs md:text-sm text-white/80"
           />
           <button 
             onClick={() => handleSend(input)}
             disabled={!input.trim() || loading}
-            className="w-10 h-10 rounded-full bg-accent text-black flex items-center justify-center hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all"
+            className="w-8 h-8 rounded-xl bg-accent text-black flex items-center justify-center hover:scale-105 active:scale-95 disabled:opacity-30 disabled:scale-100 transition-all"
           >
-            <Send size={18} />
+            <Send size={14} />
           </button>
         </div>
       </div>
