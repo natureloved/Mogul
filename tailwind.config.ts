@@ -14,9 +14,9 @@ const config: Config = {
         accent: "#14F195",
       },
       fontFamily: {
-        display: ["var(--font-bebas-neue)"],
-        sans: ["var(--font-space-grotesk)"],
-        mono: ["var(--font-jetbrains-mono)"],
+        display: ["var(--font-outfit)", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-inter)", "monospace"],
       },
     },
   },

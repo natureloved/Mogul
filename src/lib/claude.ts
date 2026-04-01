@@ -44,19 +44,25 @@ User Message: ${userMessage}`;
 }
 
 export async function generatePost(tokenData: TokenIntelligence, style: PostStyle, customContext?: string) {
-  const prompt = `Generate a Twitter/X post for my token based on the following data:
+  const prompt = `You are an elite Crypto Degens & Growth Marketer. Generate a highly viral, impressive Twitter/X post for a token based on this Bag.fm data:
 Total Fees: ${tokenData.totalFees}
 Growth Score: ${tokenData.growthScore}/100
-Recent Activity: ${tokenData.lastActivityDays} days ago
+Days Active: ${tokenData.lastActivityDays}
 
 Style: ${style}
-${customContext ? `Custom Context: ${customContext}` : ""}
+${customContext ? `Specific Detail/Hook: ${customContext}` : ""}
 
-Requirement: Keep it under 280 characters. End with #Solana #BagsApp`;
+Requirements:
+- Make it look PROFESSIONAL and ALPHA-tier.
+- Reference the specific data points naturally.
+- Use a mix of caps and lowercase for emphasis (DEGEN style).
+- If style is "raid", make it a high-intensity call to action.
+- Max 280 chars. End with $TOKEN #Solana #Bags #Mogul.`;
 
   const response = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20240620",
-    max_tokens: 600,
+    max_tokens: 400,
+    system: "You generate high-conversion crypto social media content. No generic fluff. Be sharp, aggressive, and data-focused.",
     messages: [{ role: "user", content: prompt }]
   });
 
@@ -67,16 +73,18 @@ Requirement: Keep it under 280 characters. End with #Solana #BagsApp`;
 }
 
 export async function getDashboardInsight(tokenData: TokenIntelligence) {
-  const prompt = `Analyze this token data and provide ONE sharp insight. Max 2 sentences. The most important thing the creator should know right now.
-Data:
+  const prompt = `Analyze this Bags.fm token data and provide ONE punchy, high-intelligence ALPHA insight. 
 Total Fees: ${tokenData.totalFees}
 Fee Velocity: ${tokenData.feeVelocity}
-Last Activity: ${tokenData.lastActivityDays} days ago
-Growth Score: ${tokenData.growthScore}/100`;
+Growth Score: ${tokenData.growthScore}/100
+Activity: ${tokenData.lastActivityDays} days active
+
+Task: Tell the creator exactly what this data means for their token's future in 1-2 sharp sentences. No generic advice. Be specific to the numbers.`;
 
   const response = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20240620",
-    max_tokens: 100,
+    max_tokens: 150,
+    system: "You are a master on-chain analyst. You provide sharp, cynical, and highly accurate token intelligence.",
     messages: [{ role: "user", content: prompt }]
   });
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy, RefreshCw, Wand2 } from "lucide-react";
+import { TokenIntelligence } from "@/lib/bags";
 
 const STYLES = [
   { id: "hype", label: "🔥 Hype", color: "text-orange-400" },
@@ -12,7 +13,7 @@ const STYLES = [
   { id: "raid", label: "💥 Raid", color: "text-red-500" },
 ];
 
-export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
+export default function ContentGenerator({ tokenMint, tokenData }: { tokenMint: string; tokenData?: TokenIntelligence }) {
   const [style, setStyle] = useState("hype");
   const [context, setContext] = useState("");
   const [generatedPost, setGeneratedPost] = useState("");
@@ -32,18 +33,8 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
         const data = await res.json();
         setGeneratedPost(data.post);
       } else {
-        // Mock data for demonstration
-        setTimeout(() => {
-          if (style === "raid") {
-            setGeneratedPost(
-              `💥 RAID MISSION: $MOGUL is ascending! 🚀\n\n1️⃣ Like & RT our last post\n2️⃣ Reply with "LFG MOGULS"\n3️⃣ Tag 3 bags holders\n\nMISSION START NOW! 💎🙌\n\n#Solana #Bags #MogulRaid`
-            );
-          } else {
-            setGeneratedPost(
-              `🚀 Mogul ALERT: Our Bags token is seeing insane volume! Just hit a new growth score of 85. 📈\n\nLFG Moguls! 💎🙌\n\n#Solana #BagsApp #Mogul`
-            );
-          }
-        }, 1200);
+        const errData = await res.json().catch(() => ({}));
+        setGeneratedPost(`⚠️ Generation Error: ${errData.error || "Unable to reach AI."}`);
       }
     } catch (err) {
       console.error("Gen error:", err);
@@ -62,14 +53,13 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
   const charColor = charCount >= 260 ? "text-red-500" : charCount >= 220 ? "text-yellow-500" : "text-white/40";
 
   return (
-    <div className="p-6 md:p-10 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3rem]">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-10">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-accent/20 flex items-center justify-center text-accent">
-            <Wand2 size={20} className="md:hidden" />
-            <Wand2 size={24} className="hidden md:block" />
+    <div className="p-6 border border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[2rem]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
+            <Wand2 size={16} />
           </div>
-          <h3 className="text-3xl md:text-4xl font-display">Content Gen</h3>
+          <h3 className="text-xl md:text-2xl font-display uppercase tracking-tight">Content Center</h3>
         </div>
         
         <div className="flex flex-wrap gap-2">
@@ -108,39 +98,39 @@ export default function ContentGenerator({ tokenMint }: { tokenMint: string }) {
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="w-full bg-accent text-black py-4 rounded-2xl font-display text-2xl flex items-center justify-center gap-3 hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all shadow-[0_0_20px_rgba(20,241,149,0.2)]"
+          className="w-full bg-accent text-black py-3 rounded-xl font-display text-lg flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all shadow-[0_0_15px_rgba(20,241,149,0.15)]"
         >
-          {loading ? <RefreshCw className="animate-spin" /> : <Wand2 size={20} />}
-          {loading ? "Generating..." : "Generate Viral Post"}
+          {loading ? <RefreshCw className="animate-spin" size={14} /> : <Wand2 size={14} />}
+          {loading ? "Analyzing Context..." : "Generate High-Impact Post"}
         </button>
 
         {generatedPost && (
-          <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-top-2 duration-500">
             <div className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/20 to-purple-500/20 rounded-[2rem] blur opacity-0 group-hover:opacity-100 transition duration-1000"></div>
-              <div className="relative p-8 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-xl">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-700"></div>
+              <div className="relative p-5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
                 <textarea
                   value={generatedPost}
                   onChange={(e) => setGeneratedPost(e.target.value)}
-                  className="w-full bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed mb-6 h-32"
+                  className="w-full bg-transparent border-none outline-none resize-none font-sans text-sm leading-relaxed mb-4 h-28 text-white/90"
                 />
                 <div className="flex items-center justify-between">
-                  <div className={`font-mono text-xs ${charColor}`}>
-                    {charCount} / 280 chars
+                  <div className={`font-mono text-[9px] uppercase tracking-widest ${charColor}`}>
+                    {charCount} / 280
                   </div>
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleGenerate}
-                      className="text-[10px] items-center gap-1 font-mono uppercase tracking-widest text-white/30 hover:text-accent transition-colors flex"
+                      className="text-[9px] items-center gap-1 font-mono uppercase tracking-widest text-white/20 hover:text-accent transition-colors flex"
                     >
-                      <RefreshCw size={10} /> Regenerate
+                      <RefreshCw size={10} /> Regen
                     </button>
                     <button
                       onClick={handleCopy}
-                      className="flex items-center gap-2 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-all border border-white/10"
+                      className="flex items-center gap-2 px-4 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg transition-all border border-white/5"
                     >
-                      {copied ? <Check size={16} className="text-accent" /> : <Copy size={16} />}
-                      <span className="text-xs font-mono uppercase tracking-widest">{copied ? "Copied" : "Copy"}</span>
+                      {copied ? <Check size={12} className="text-accent" /> : <Copy size={12} />}
+                      <span className="text-[10px] font-mono uppercase tracking-widest">{copied ? "Copied" : "Copy"}</span>
                     </button>
                   </div>
                 </div>

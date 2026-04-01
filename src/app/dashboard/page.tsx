@@ -105,9 +105,14 @@ export default function DashboardPage() {
           if (d.success) {
             setInsight(d.insight);
             console.log("AI Insight loaded for:", cleanMint);
+          } else {
+            setInsight("AI intelligence currently unavailable for this token.");
           }
         })
-        .catch(err => console.error("Insight fetch failed:", err));
+        .catch(err => {
+          console.error("Insight fetch failed:", err);
+          setInsight("Unable to generate AI intelligence at this time.");
+        });
 
       sessionStorage.setItem("mogul_mint", cleanMint);
       setAnalysis({ mint: cleanMint, data: data.data });
@@ -263,9 +268,9 @@ export default function DashboardPage() {
                    </div>
                  </div>
                )}
-               {activeTab === "AI Coach" && <AICoach tokenMint={analysis.mint} />}
-               {activeTab === "Content Gen" && <ContentGenerator tokenMint={analysis.mint} />}
-               {activeTab === "Raid Mode" && <AlphaRadar tokenMint={analysis.mint} />}
+                {activeTab === "AI Coach" && <AICoach tokenMint={analysis.mint} tokenData={analysis.data} />}
+                {activeTab === "Content Gen" && <ContentGenerator tokenMint={analysis.mint} tokenData={analysis.data} />}
+                {activeTab === "Raid Mode" && <AlphaRadar tokenMint={analysis.mint} tokenData={analysis.data} />}
              </ErrorBoundary>
            </div>
         ) : !isAnalyzing && (

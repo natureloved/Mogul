@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Send, User, Bot, Sparkles } from "lucide-react";
 
+import { TokenIntelligence } from "@/lib/bags";
+
 interface Message {
   role: "user" | "assistant";
   content: string;
@@ -15,7 +17,7 @@ const STARTER_PROMPTS = [
   "How do I get more active traders?",
 ];
 
-export default function AICoach({ tokenMint }: { tokenMint: string }) {
+export default function AICoach({ tokenMint, tokenData }: { tokenMint: string; tokenData?: TokenIntelligence }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,9 +46,10 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          tokenMint,
+          tokenMint: tokenMint,
           message: content,
           history: messages,
+          // If we have tokenData locally, we could pass it to avoid re-fetch but the API Currently Re-fetches.
         }),
       });
 
@@ -54,13 +57,11 @@ export default function AICoach({ tokenMint }: { tokenMint: string }) {
         const data = await res.json();
         setMessages([...newMessages, { role: "assistant", content: data.advice }]);
       } else {
-        // Mock reply if API not yet implemented
-        setTimeout(() => {
-          setMessages([...newMessages, { 
-            role: "assistant", 
-            content: "I'm currently looking at your fee velocity and holder psychology. To grow, you should engage your top 10 holders and leverage the recent spike in claim events to build social proof on X." 
-          }]);
-        }, 1500);
+        const errData = await res.json().catch(() => ({ error: "Failed to connect to AI Coach." }));
+        setMessages([...newMessages, { 
+          role: "assistant", 
+          content: `Sorry, I'm having trouble connecting right now. ${errData.error || ""}` 
+        }]);
       }
     } catch (err) {
       console.error("Coach error:", err);
