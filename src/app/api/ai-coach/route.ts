@@ -33,7 +33,9 @@ export async function POST(request: Request) {
     const advice = await getCoachAdvice(tokenData, message, history as Message[]);
 
     return NextResponse.json({ success: true, advice });
-  } catch {
-    return NextResponse.json({ success: false, error: "Failed to process request" }, { status: 500 });
+  } catch (error) {
+    console.error("AI COACH API ERROR:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to process request";
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

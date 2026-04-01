@@ -16,9 +16,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, insight });
   } catch (error) {
     console.error("DASHBOARD INSIGHT API ERROR:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to generate insight";
     return NextResponse.json({
       success: false,
-      error: error instanceof Error ? error.message : "Failed to generate insight",
+      error: errorMessage,
     }, { status: 500 });
   }
 }

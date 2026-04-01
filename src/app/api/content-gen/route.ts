@@ -17,7 +17,9 @@ export async function POST(request: Request) {
     const post = await generatePost(tokenData, style as PostStyle, customContext);
 
     return NextResponse.json({ success: true, post });
-  } catch {
-    return NextResponse.json({ success: false, error: "Failed to generate content" }, { status: 500 });
+  } catch (error) {
+    console.error("CONTENT GEN API ERROR:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to generate content";
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
