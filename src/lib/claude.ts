@@ -27,7 +27,7 @@ function getSmartFallback(tokenData: TokenIntelligence, type: 'INSIGHT' | 'COACH
   }
 
   if (type === 'COACH') {
-    return `1️⃣ **Engage Top Holders**: With ${totalFees} SOL generated, you have a solid whale base. Reach out to them.\n2️⃣ **Boost Velocity**: Current 7d velocity is ${feeVelocity} SOL. Host a raid or share milestones to drive trade volume.\n3️⃣ **Maintain Activity**: Your last activity was ${lastActivityDays} days ago - consistent updates are key for a ${growthScore} Growth Score.`;
+    return `1️⃣ Engage Top Holders: With ${totalFees} SOL generated, you have a solid whale base. Reach out to them.\n2️⃣ Boost Velocity: Current 7d velocity is ${feeVelocity} SOL. Host a raid or share milestones to drive trade volume.\n3️⃣ Maintain Activity: Your last activity was ${lastActivityDays} days ago - consistent updates are key for a ${growthScore} Growth Score.`;
   }
 
   if (type === 'POST') {
@@ -49,7 +49,7 @@ Growth Score: ${tokenData.growthScore}/100
 User Message: ${userMessage}`;
 
     const recentHistory = history.slice(-6);
-    const systemPrompt = "You are Mogul — an AI advisor for Bags.fm token creators on Solana. Give sharp, data-driven, actionable advice. Max 3 recommendations. No fluff. Only reference real data provided. Max response: 3 short paragraphs or bullet points.";
+    const systemPrompt = "You are Mogul — an AI advisor for Bags.fm token creators on Solana. Give sharp, data-driven, actionable advice. Max 3 recommendations. No fluff. Only reference real data provided. Max response: 3 short paragraphs or bullet points. DO NOT use markdown bolding (**) or any asterisks in your response.";
 
     const messages: Anthropic.MessageParam[] = [
       ...recentHistory.map(m => ({ role: m.role, content: m.content }) as Anthropic.MessageParam),
